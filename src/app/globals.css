@@ -55,3 +55,15 @@
 @keyframes text-blink {
   0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; }
 }
+ /* globals.css */
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient {
+  background-size: 200% 200%; /* Make the background larger to shift */
+  animation: gradient-shift 6s ease infinite; /* Adjust duration (6s) and timing (ease) as needed */
+}

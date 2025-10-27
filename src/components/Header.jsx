@@ -22,7 +22,7 @@ const loggedOutMenuItems = [
 const commonMenuItems = [
   { href: '/', label: 'Home' },
   { href: '/shops', label: 'Shops' },
-  { href: '/kitto-drop', label: 'Kitto Drop' }, // New Item
+  { href: '/kitto-drop', label: 'Kitto Drop' }, // New Item included
 ];
 // --------------------------------------------------------------------
 
@@ -46,7 +46,8 @@ const Header = () => {
       <nav className="container mx-auto px-4 py-3 flex justify-between items-center">
         {/* Logo */}
         <Link href="/">
-          <Image src="/logo.png" alt="Kitto Logo" width={120} height={40} priority />
+          {/* Ensure the path and dimensions are correct for your logo */}
+          <Image src="/logo.png" alt="Kitto Logo" width={100} height={35} priority style={{ height: 'auto' }}/>
         </Link>
 
         {/* Hotline */}
@@ -56,32 +57,31 @@ const Header = () => {
         </div>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex items-center space-x-2 md:space-x-4">
-          <Link href="/" className="bg-white text-primary font-bold py-2 px-4 rounded-full hover:bg-gray-100"> Home </Link>
-          <Link href="/shops" className="bg-white text-primary font-bold py-2 px-4 rounded-full hover:bg-gray-100"> Shops </Link>
-          {/* === New Button === */}
-          <Link href="/kitto-drop" className="bg-white text-primary font-bold py-2 px-4 rounded-full hover:bg-gray-100"> Kitto Drop </Link>
-          {/* ================== */}
-          <Link href="/post-ad" className="bg-primary text-white font-bold py-2 px-6 rounded-full hover:opacity-90"> + Post Ad </Link>
+        {/* Added flex-wrap for safety, although it shouldn't wrap ideally */}
+        <div className="hidden md:flex items-center space-x-2 md:space-x-3 flex-wrap"> {/* Adjusted space */}
+          <Link href="/" className="bg-white text-primary font-bold py-2 px-4 rounded-full hover:bg-gray-100 transition-colors whitespace-nowrap"> Home </Link>
+          <Link href="/shops" className="bg-white text-primary font-bold py-2 px-4 rounded-full hover:bg-gray-100 transition-colors whitespace-nowrap"> Shops </Link>
+          <Link href="/kitto-drop" className="bg-white text-primary font-bold py-2 px-4 rounded-full hover:bg-gray-100 transition-colors whitespace-nowrap"> Kitto Drop </Link>
+          <Link href="/post-ad" className="bg-primary text-white font-bold py-2 px-5 rounded-full hover:opacity-90 transition-opacity whitespace-nowrap"> + Post Ad </Link> {/* Adjusted padding slightly */}
 
           {/* Conditional Auth Links */}
           {session ? (
             <>
-              <Link href="/my-ads" className="bg-white text-primary font-bold py-2 px-4 rounded-full hover:bg-gray-100"> My Ads </Link>
-              <Link href="/account/settings" className="bg-white text-primary font-bold py-2 px-4 rounded-full hover:bg-gray-100" title="Settings"> Settings </Link>
-              <button onClick={handleLogout} className="bg-white text-red-500 font-bold py-2 px-4 rounded-full hover:bg-gray-100"> Log Out </button>
+              <Link href="/my-ads" className="bg-white text-primary font-bold py-2 px-4 rounded-full hover:bg-gray-100 transition-colors whitespace-nowrap"> My Ads </Link>
+              <Link href="/account/settings" className="bg-white text-primary font-bold py-2 px-4 rounded-full hover:bg-gray-100 transition-colors whitespace-nowrap" title="Settings"> Settings </Link>
+              <button onClick={handleLogout} className="bg-white text-red-500 font-bold py-2 px-4 rounded-full hover:bg-gray-100 transition-colors whitespace-nowrap"> Log Out </button>
             </>
           ) : (
             <>
-              <Link href="/login" className="bg-white text-primary font-bold py-2 px-4 rounded-full hover:bg-gray-100"> Log In </Link>
-              <Link href="/signup" className="bg-white text-primary font-bold py-2 px-4 rounded-full hover:bg-gray-100"> Sign Up </Link>
+              <Link href="/login" className="bg-white text-primary font-bold py-2 px-4 rounded-full hover:bg-gray-100 transition-colors whitespace-nowrap"> Log In </Link>
+              <Link href="/signup" className="bg-white text-primary font-bold py-2 px-4 rounded-full hover:bg-gray-100 transition-colors whitespace-nowrap"> Sign Up </Link>
             </>
           )}
         </div>
 
         {/* Mobile Menu Button */}
         <div className="md:hidden flex items-center">
-          <Link href="/post-ad" className="bg-primary text-white font-bold py-1 px-3 rounded-full text-sm mr-2"> + Post Ad </Link>
+          <Link href="/post-ad" className="bg-primary text-white font-bold py-1 px-3 rounded-full text-sm mr-2 whitespace-nowrap"> + Post Ad </Link>
 
           {/* Hydration check for Menu */}
           {isClient && (
@@ -102,11 +102,7 @@ const Header = () => {
                       <div className="py-1">
                         {commonMenuItems.map((item) => (
                           <Menu.Item key={item.label}>
-                            {({ active }) => (
-                              <Link href={item.href} className={`${ active ? 'bg-gray-100' : '' } block px-4 py-2 text-sm text-gray-700`}>
-                                {item.label}
-                              </Link>
-                            )}
+                            {({ active }) => ( <Link href={item.href} className={`${ active ? 'bg-gray-100' : '' } block px-4 py-2 text-sm text-gray-700`}>{item.label}</Link> )}
                           </Menu.Item>
                         ))}
                       </div>
@@ -114,24 +110,13 @@ const Header = () => {
                       <div className="py-1">
                         {(session ? loggedInMenuItems : loggedOutMenuItems).map((item) => (
                           <Menu.Item key={item.label}>
-                            {({ active }) => (
-                              <Link href={item.href} className={`${ active ? 'bg-gray-100' : '' } block px-4 py-2 text-sm text-gray-700`}>
-                                {item.label}
-                              </Link>
-                            )}
+                            {({ active }) => ( <Link href={item.href} className={`${ active ? 'bg-gray-100' : '' } block px-4 py-2 text-sm text-gray-700`}>{item.label}</Link> )}
                           </Menu.Item>
                         ))}
                         {/* Logout Button */}
                         {session && (
                           <Menu.Item>
-                            {({ active }) => (
-                              <button
-                                onClick={handleLogout}
-                                className={`${ active ? 'bg-gray-100' : '' } block w-full px-4 py-2 text-left text-sm text-red-600`}
-                              >
-                                Log Out
-                              </button>
-                            )}
+                            {({ active }) => ( <button onClick={handleLogout} className={`${ active ? 'bg-gray-100' : '' } block w-full px-4 py-2 text-left text-sm text-red-600`}> Log Out </button> )}
                           </Menu.Item>
                         )}
                       </div>
@@ -142,11 +127,7 @@ const Header = () => {
             </Menu>
           )}
           {/* Fallback for SSR/initial render */}
-          {!isClient && (
-            <div className="px-2 py-1 border border-gray-300 rounded-md bg-white">
-              <HiOutlineMenu className="h-5 w-5 text-gray-400" />
-            </div>
-          )}
+          {!isClient && ( <div className="px-2 py-1 border border-gray-300 rounded-md bg-white"> <HiOutlineMenu className="h-5 w-5 text-gray-400" /> </div> )}
         </div>
       </nav>
     </header>
