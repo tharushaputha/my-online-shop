@@ -107,18 +107,18 @@ export default function MyOrdersPage() {
       <Header />
       <main className="bg-white min-h-[calc(100vh-150px)] py-10 px-4">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl sm:text-4xl font-bold text-pink-600 mb-8 text-center">
+          <h1 className="text-3xl sm:text-4xl font-bold text-primary mb-8 text-center">
             My Kitto Drop Orders
           </h1>
 
           {/* Loading State */}
           {isLoading && ( /* ... (Loading spinner - no change) ... */
-            <div className="flex justify-center items-center py-10"> <FaSpinner className="animate-spin text-pink-600 text-4xl" /> <p className="ml-3 text-gray-600">Loading your orders...</p> </div>
+            <div className="flex justify-center items-center py-10"> <FaSpinner className="animate-spin text-primary text-4xl" /> <p className="ml-3 text-gray-600">Loading your orders...</p> </div>
           )}
 
           {/* Error State */}
           {error && ( /* ... (Error display - no change) ... */
-            <div className="text-center py-10 text-red-600"> <FaExclamationTriangle className="text-3xl mb-2 mx-auto"/> <p>{error}</p> <Link href="/kitto-drop" className="mt-4 text-pink-600 hover:underline text-sm block">Go Back</Link> </div>
+            <div className="text-center py-10 text-red-600"> <FaExclamationTriangle className="text-3xl mb-2 mx-auto"/> <p>{error}</p> <Link href="/kitto-drop" className="mt-4 text-primary hover:underline text-sm block">Go Back</Link> </div>
           )}
 
           {/* Content State */}
@@ -155,7 +155,7 @@ export default function MyOrdersPage() {
                         
                         {/* Right Side: Status & Amount */}
                         <div className="flex sm:flex-col items-end sm:items-end justify-between w-full sm:w-auto flex-shrink-0 mt-2 sm:mt-0"> {/* Ensure it doesn't shrink */}
-                          <p className="font-bold text-lg sm:text-xl text-pink-600 mb-0 sm:mb-2">
+                          <p className="font-bold text-lg sm:text-xl text-primary mb-0 sm:mb-2">
                             Rs. {order.total_order_amount.toFixed(2)}
                           </p>
                           {/* Status Badge */}
@@ -175,7 +175,7 @@ export default function MyOrdersPage() {
             </div>
           )}
 
-          <Link href="/kitto-drop/my-account" className="block mt-8 text-center text-pink-600 hover:underline text-sm">
+          <Link href="/kitto-drop/my-account" className="block mt-8 text-center text-primary hover:underline text-sm">
             ← Back to My Account
           </Link>
         </div>

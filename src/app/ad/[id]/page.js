@@ -1,35 +1,84 @@
 'use client';
+
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { FaWhatsapp, FaStore, FaEye } from 'react-icons/fa'; // --- 1. Aluth Icons (FaStore, FaEye) Import Kala ---
+import { FaWhatsapp, FaStore, FaEye, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import Link from 'next/link';
 
-// ImageGallery Component (Wenasak Na)
+// --- ImageGallery Component (Scrollable Gallery) ---
 const ImageGallery = ({ imageUrls, title }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
   if (!imageUrls || imageUrls.length === 0) {
     return (
-      <div className="bg-gray-200 h-64 flex items-center justify-center text-gray-500 rounded-lg">
+      <div className="bg-gray-200 h-64 md:h-96 flex items-center justify-center text-gray-500 rounded-lg">
         No Images
       </div>
     );
   }
+
+  const goToNext = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === imageUrls.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const goToPrevious = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? imageUrls.length - 1 : prevIndex - 1
+    );
+  };
+
   return (
-    <div className="relative w-full h-64 md:h-96 bg-gray-100 rounded-lg overflow-hidden mb-6 flex items-center justify-center">
-      <img
-        src={imageUrls[0]}
-        alt={title}
-        className="max-w-full max-h-full object-contain"
-        loading="lazy"
-      />
+    <div className="relative w-full h-64 md:h-96 bg-gray-100 rounded-lg overflow-hidden mb-6 group">
+      {/* Main Image */}
+      <div className="w-full h-full flex items-center justify-center">
+        <img
+          src={imageUrls[currentIndex]}
+          alt={`${title} - ${currentIndex + 1}`}
+          className="max-w-full max-h-full object-contain transition-opacity duration-300"
+          key={currentIndex}
+          loading="lazy"
+        />
+      </div>
+
+      {/* Image Count Badge */}
+      {imageUrls.length > 1 && (
+        <div className="absolute bottom-3 right-3 bg-black bg-opacity-60 text-white text-xs font-semibold px-2 py-1 rounded-full z-10">
+          {currentIndex + 1} / {imageUrls.length}
+        </div>
+      )}
+
+      {/* Previous Button */}
+      {imageUrls.length > 1 && (
+        <button
+          onClick={goToPrevious}
+          className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-white bg-opacity-70 rounded-full p-2 text-gray-700 hover:bg-opacity-100 transition-opacity opacity-0 group-hover:opacity-100 focus:outline-none z-10"
+          aria-label="Previous Image"
+        >
+          <FaChevronLeft className="w-4 h-4 md:w-5 md:h-5" />
+        </button>
+      )}
+
+      {/* Next Button */}
+      {imageUrls.length > 1 && (
+        <button
+          onClick={goToNext}
+          className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-white bg-opacity-70 rounded-full p-2 text-gray-700 hover:bg-opacity-100 transition-opacity opacity-0 group-hover:opacity-100 focus:outline-none z-10"
+          aria-label="Next Image"
+        >
+          <FaChevronRight className="w-4 h-4 md:w-5 md:h-5" />
+        </button>
+      )}
     </div>
   );
 };
 
-// formatWhatsAppNumber function (Wenasak Na)
+// --- formatWhatsAppNumber function ---
 const formatWhatsAppNumber = (number) => {
   if (!number) return null;
   let cleaned = number.replace(/[-\s]/g, '');
@@ -39,7 +88,7 @@ const formatWhatsAppNumber = (number) => {
   return cleaned;
 };
 
-// --- Related Ad Card (Kalin hadapu eka, Wenasak Na) ---
+// --- RelatedAdCard Component ---
 const RelatedAdCard = ({ ad }) => (
   <Link
     href={`/ad/${ad.id}`}
@@ -64,13 +113,13 @@ const RelatedAdCard = ({ ad }) => (
         {ad.title}
       </h4>
       <p className="text-base font-bold text-primary mt-1">
-        Rs. {ad.price.toLocaleString()}
+        Rs. {ad.price ? ad.price.toLocaleString() : 'N/A'}
       </p>
     </div>
   </Link>
 );
 
-// --- Related Ads Section (Kalin hadapu eka, Wenasak Na) ---
+// --- RelatedAds Section ---
 const RelatedAds = ({ categoryName, currentAdId }) => {
   const [ads, setAds] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -89,6 +138,7 @@ const RelatedAds = ({ categoryName, currentAdId }) => {
         .neq('id', currentAdId)
         .eq('is_sold', false)
         .limit(8);
+        
       if (error) {
         console.error('Error fetching related ads:', error);
       } else if (data) {
@@ -115,7 +165,7 @@ const RelatedAds = ({ categoryName, currentAdId }) => {
   );
 };
 
-// --- ප්‍රධාන Page Component (Mehi Wenas Kam Thiyenawa) ---
+// --- Main AdDetailPage Component ---
 export default function AdDetailPage() {
   const params = useParams();
   const id = params?.id;
@@ -127,32 +177,33 @@ export default function AdDetailPage() {
     setAd(null);
     setError(null);
     setLoading(true);
+
     if (id) {
       const fetchAdDetails = async () => {
         try {
-          // --- 2. Aluth Data Fetch Method (Shop details ganna 'profiles' table ekath join kala) ---
+          // Fetch Ad and linked Profile data
           const { data, error: fetchError, status } = await supabase
             .from('ads')
-            .select('*, profiles(*)') // '*' wenwata '*, profiles(*)' kiyala damma
+            .select('*, profiles(*)') // Join with profiles table
             .eq('id', id)
             .single();
 
-          if (fetchError && status !== 406) throw fetchError;
+          if (fetchError && status !== 406) {
+            throw fetchError;
+          }
 
           if (data) {
-            setAd(data); // Data set kala
+            setAd(data);
             setError(null);
 
-            // --- 3. View Count eka 1kin Wadi Karamu (Fire-and-forget) ---
-            // (Page eka load wenna block karanne na)
+            // Increment View Count (fire-and-forget)
             try {
               await supabase.rpc('increment_view_count', { ad_id_input: data.id });
               console.log('View count incremented');
             } catch (rpcError) {
               console.error('Error incrementing view count:', rpcError);
             }
-            // --------------------------------------------------------
-
+            
           } else {
             setError('Ad not found.');
             setAd(null);
@@ -169,50 +220,49 @@ export default function AdDetailPage() {
       setLoading(false);
       setError('Invalid Ad ID.');
     }
-  }, [id]); // ID eka wenas weddi aye run wenawa
+  }, [id]);
 
+  // --- Render Logic ---
   let content;
+
   if (loading) {
     content = <LoadingSpinner message="Loading ad details..." />;
   } else if (error) {
     content = <p className="text-center py-10 text-red-600">{error}</p>;
   } else if (ad) {
-    const whatsappLink = `https://wa.me/${formatWhatsAppNumber(
-      ad.whatsapp_number
-    )}`;
-    
-    // Check karamu meka shop ekakda kiyala (api data fetch karapu 'profiles' object eken)
+    const whatsappLink = formatWhatsAppNumber(ad.whatsapp_number);
     const postedByShop = ad.profiles && ad.profiles.is_shop === true;
 
     content = (
       <>
-        {/* --- ප්‍රධාන Ad එකේ විස්තර --- */}
+        {/* Main Ad Details Card */}
         <div className="max-w-4xl mx-auto p-4 md:p-8 bg-white shadow-lg rounded-lg my-10">
+          
+          {/* New Image Gallery */}
           <ImageGallery imageUrls={ad.image_urls} title={ad.title} />
           
+          {/* Ad Title */}
           <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
             {ad.title}
           </h1>
           
+          {/* Price */}
           <p className="text-3xl font-bold text-primary mb-6">
             Rs. {ad.price ? ad.price.toLocaleString() : 'N/A'}
           </p>
 
-          {/* --- 4. Aluth Metadata Section (Shop Name & View Count) --- */}
+          {/* Metadata (Location, Category, Views, Shop) */}
           <div className="flex flex-wrap items-center text-sm text-gray-600 mb-6 gap-x-5 gap-y-2">
             <span>📍 {ad.location || 'N/A'}</span>
             <span>🏷️ {ad.category_name || 'N/A'}</span>
-            
-            {/* View Count eka pennamu */}
             <span className="inline-flex items-center">
               <FaEye className="w-4 h-4 mr-1.5" />
               {ad.view_count || 0} views
             </span>
             
-            {/* Shop ekak nam, Shop Name eka Link ekak widihata pennamu */}
             {postedByShop && (
               <Link
-                href={`/shop/${ad.user_id}`} // Click karama shop page ekata yanna
+                href={`/shop/${ad.user_id}`}
                 className="inline-flex items-center text-blue-600 font-semibold hover:underline"
               >
                 <FaStore className="w-4 h-4 mr-1.5" />
@@ -220,8 +270,8 @@ export default function AdDetailPage() {
               </Link>
             )}
           </div>
-          {/* ---------------------------------------------------- */}
 
+          {/* Description */}
           <div className="mb-8">
             <h2 className="text-xl font-semibold text-gray-700 mb-2">
               Description
@@ -230,6 +280,8 @@ export default function AdDetailPage() {
               {ad.description || 'No description provided.'}
             </p>
           </div>
+
+          {/* WhatsApp Button */}
           {ad.whatsapp_number && (
             <div className="mt-8 border-t pt-6">
               <a
@@ -245,7 +297,7 @@ export default function AdDetailPage() {
           )}
         </div>
 
-        {/* --- Related Ads Section (Wenasak na) --- */}
+        {/* Related Ads Section */}
         <RelatedAds
           categoryName={ad.category_name}
           currentAdId={ad.id}
@@ -256,10 +308,13 @@ export default function AdDetailPage() {
     content = <p className="text-center py-10">Ad not found.</p>;
   }
 
+  // --- Final Render ---
   return (
     <>
       <Header />
-      <main className="bg-gray-100 min-h-screen">{content}</main>
+      <main className="bg-gray-100 min-h-screen">
+        {content}
+      </main>
       <Footer />
     </>
   );

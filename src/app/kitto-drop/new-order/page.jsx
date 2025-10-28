@@ -223,7 +223,7 @@ export default function NewOrderPage() {
       <Header />
       <main className="bg-white min-h-[calc(100vh-150px)] py-10 px-4">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl sm:text-4xl font-bold text-pink-600 mb-6 text-center">
+          <h1 className="text-3xl sm:text-4xl font-bold text-primary mb-6 text-center">
             Place New Kitto Drop Order
           </h1>
 
@@ -249,7 +249,7 @@ export default function NewOrderPage() {
                     onBlur={handleCityInputBlur} // Added
                     disabled={!selectedDistrictId || isFetchingLocations}
                     required={!selectedCityName} // Validation based on selectedCityName
-                    className={`w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-pink-500 shadow-sm ${!selectedDistrictId || isFetchingLocations ? 'bg-gray-100 cursor-not-allowed' : 'bg-white'}`}
+                    className={`w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary shadow-sm ${!selectedDistrictId || isFetchingLocations ? 'bg-gray-100 cursor-not-allowed' : 'bg-white'}`}
                     autoComplete="off"
                   />
                   {isFetchingLocations && selectedDistrictId && <FaSpinner className="animate-spin absolute right-3 top-9 text-gray-400"/>}
@@ -282,14 +282,14 @@ export default function NewOrderPage() {
                 <h3 className="text-base font-semibold text-gray-700 -mb-2">Add Product</h3>
                 <div className="relative"> <label htmlFor="productSearch" className="block text-sm font-medium text-gray-700 mb-1">Product *</label> <input type="text" id="productSearch" placeholder="Type product name (from WonderNest)..." value={productSearchTerm} onChange={(e) => {setProductSearchTerm(e.target.value); setSelectedProduct(null); setRetailPrice(0);}} 
                   required={orderItems.length === 0} // <<< BUG FIX HERE
-                  className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-pink-500 shadow-sm" autoComplete="off"/> {(isLoadingProducts || productSuggestions.length > 0) && ( <ul className="absolute left-0 right-0 top-full mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg z-10 max-h-40 overflow-y-auto"> {isLoadingProducts && <li className="px-3 py-2 text-gray-500 text-sm">Searching...</li>} {!isLoadingProducts && productSuggestions.map(p => ( <li key={p.id} onClick={() => handleProductSelect(p)} className="px-3 py-2 hover:bg-pink-50 cursor-pointer text-sm text-gray-800"> {p.title} <span className="text-xs text-gray-400">(Rs. {p.price})</span> </li> ))} </ul> )} </div>
+                  className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary shadow-sm" autoComplete="off"/> {(isLoadingProducts || productSuggestions.length > 0) && ( <ul className="absolute left-0 right-0 top-full mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg z-10 max-h-40 overflow-y-auto"> {isLoadingProducts && <li className="px-3 py-2 text-gray-500 text-sm">Searching...</li>} {!isLoadingProducts && productSuggestions.map(p => ( <li key={p.id} onClick={() => handleProductSelect(p)} className="px-3 py-2 hover:bg-pink-50 cursor-pointer text-sm text-gray-800"> {p.title} <span className="text-xs text-gray-400">(Rs. {p.price})</span> </li> ))} </ul> )} </div>
                 <div className="grid grid-cols-2 gap-4"> <div> <label htmlFor="quantity" className="block text-sm font-medium text-gray-700 mb-1">Qty *</label> <input type="number" id="quantity" value={quantity} onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))} min="1" 
                   required={orderItems.length === 0} // <<< BUG FIX HERE
-                  className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-pink-500 shadow-sm"/> </div> <div> <label htmlFor="retailPrice" className="block text-sm font-medium text-gray-700 mb-1">Retail Price</label> <input type="text" id="retailPrice" value={`Rs. ${retailPrice.toFixed(2)}`} readOnly disabled className="w-full p-2 border border-gray-300 rounded-md bg-gray-100 text-gray-500 cursor-not-allowed shadow-sm"/> </div> </div>
+                  className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary shadow-sm"/> </div> <div> <label htmlFor="retailPrice" className="block text-sm font-medium text-gray-700 mb-1">Retail Price</label> <input type="text" id="retailPrice" value={`Rs. ${retailPrice.toFixed(2)}`} readOnly disabled className="w-full p-2 border border-gray-300 rounded-md bg-gray-100 text-gray-500 cursor-not-allowed shadow-sm"/> </div> </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4"> <div className="sm:col-span-1"> <label htmlFor="saleAmount" className="block text-sm font-medium text-gray-700 mb-1">Your Sale Amount *</label> <input type="number" id="saleAmount" value={saleAmount} onChange={(e) => setSaleAmount(e.target.value)} 
                   required={orderItems.length === 0} // <<< BUG FIX HERE
-                  min={retailPrice > 0 ? retailPrice : 0} step="0.01" placeholder="e.g., 2500.00" className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-pink-500 shadow-sm"/> </div> <div className="sm:col-span-1"> <label htmlFor="estProfit" className="block text-sm font-medium text-gray-700 mb-1">Estimated Profit</label> <input type="text" id="estProfit" value={`Rs. ${estimatedProfit.toFixed(2)}`} readOnly disabled className={`w-full p-2 border rounded-md bg-gray-100 text-gray-500 cursor-not-allowed shadow-sm ${estimatedProfit < 0 ? 'border-red-400 text-red-600' : 'border-gray-300'}`}/> </div> <div className="sm:col-span-1"> <label htmlFor="totalAmount" className="block text-sm font-medium text-gray-700 mb-1">Total (Sale + Del.)</label> <input type="text" id="totalAmount" value={`Rs. ${totalAmount.toFixed(2)}`} readOnly disabled className="w-full p-2 border border-gray-300 rounded-md bg-gray-100 text-gray-500 cursor-not-allowed shadow-sm"/> </div> </div>
-                <div> <label htmlFor="productNote" className="block text-sm font-medium text-gray-700 mb-1">Product Note (Optional)</label> <input type="text" id="productNote" value={productNote} onChange={(e) => setProductNote(e.target.value)} placeholder="e.g., Color preference, size" className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-pink-500 shadow-sm"/> </div>
+                  min={retailPrice > 0 ? retailPrice : 0} step="0.01" placeholder="e.g., 2500.00" className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-pink-500 shadow-sm"/> </div> <div className="sm:col-span-1"> <label htmlFor="estProfit" className="block text-sm font-medium text-gray-700 mb-1">Estimated Profit</label> <input type="text" id="estProfit" value={`Rs. ${estimatedProfit.toFixed(2)}`} readOnly disabled className={`w-full p-2 border rounded-md bg-gray-100 text-gray-500 cursor-not-allowed shadow-sm ${estimatedProfit < 0 ? 'border-primary text-red-600' : 'border-gray-300'}`}/> </div> <div className="sm:col-span-1"> <label htmlFor="totalAmount" className="block text-sm font-medium text-gray-700 mb-1">Total (Sale + Del.)</label> <input type="text" id="totalAmount" value={`Rs. ${totalAmount.toFixed(2)}`} readOnly disabled className="w-full p-2 border border-gray-300 rounded-md bg-gray-100 text-gray-500 cursor-not-allowed shadow-sm"/> </div> </div>
+                <div> <label htmlFor="productNote" className="block text-sm font-medium text-gray-700 mb-1">Product Note (Optional)</label> <input type="text" id="productNote" value={productNote} onChange={(e) => setProductNote(e.target.value)} placeholder="e.g., Color preference, size" className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary shadow-sm"/> </div>
                 <button type="button" onClick={handleAddProduct} disabled={!selectedProduct || isSubmitting} className={`w-full sm:w-auto px-5 py-2 rounded-lg text-white font-semibold transition-colors flex items-center justify-center text-sm sm:text-base ${ !selectedProduct ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700' }`}> <FaPlus className="mr-2 h-4 w-4"/> Add Product to Order </button>
                 {error && orderItems.length === 0 && <p className="text-xs text-red-600 mt-1">{error}</p>}
               </div>
@@ -300,7 +300,7 @@ export default function NewOrderPage() {
             {successMessage && <p className="text-sm text-green-600 text-center mt-4"><FaCheckCircle className="inline mr-1.5"/>{successMessage}</p>}
 
             {/* Submit Order Button */}
-            <button type="submit" disabled={isSubmitting || orderItems.length === 0} className={`w-full mt-8 bg-pink-600 text-white font-bold py-3 px-6 rounded-lg transition-colors text-lg flex items-center justify-center ${ isSubmitting || orderItems.length === 0 ? 'opacity-70 cursor-not-allowed' : 'hover:bg-pink-700' }`}> {isSubmitting ? <FaSpinner className="animate-spin mr-2" /> : null} {isSubmitting ? 'Submitting Order...' : 'Submit Order'} </button>
+            <button type="submit" disabled={isSubmitting || orderItems.length === 0} className={`w-full mt-8 bg-primary text-white font-bold py-3 px-6 rounded-lg transition-colors text-lg flex items-center justify-center ${ isSubmitting || orderItems.length === 0 ? 'opacity-70 cursor-not-allowed' : 'hover:bg-pink-700' }`}> {isSubmitting ? <FaSpinner className="animate-spin mr-2" /> : null} {isSubmitting ? 'Submitting Order...' : 'Submit Order'} </button>
             <Link href="/kitto-drop" className="block mt-4 text-center text-gray-500 hover:underline text-sm"> Cancel </Link>
           </form>
         </div>
@@ -311,13 +311,13 @@ export default function NewOrderPage() {
        <style jsx global>{`
         /* Added Tailwind base classes to use in component */
         .label-style { @apply block text-sm font-medium text-gray-700 mb-1; }
-        .input-style { @apply w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-pink-500 shadow-sm text-base; }
+        .input-style { @apply w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary shadow-sm text-base; }
         .disabled-input { @apply bg-gray-100 text-gray-500 cursor-not-allowed; }
         .button-style { @apply px-5 py-2 rounded-lg text-white font-semibold transition-colors flex items-center justify-center text-sm sm:text-base; }
         .disabled-button { @apply opacity-70 cursor-not-allowed; }
         .dropdown-style { @apply absolute left-0 right-0 top-full mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg z-10 max-h-40 overflow-y-auto; }
         .dropdown-item { @apply px-3 py-2 hover:bg-pink-50 cursor-pointer text-sm text-gray-800; }
-        .selected-platform { @apply border-pink-500 bg-pink-50 ring-2 ring-pink-300; }
+        .selected-platform { @apply border-primary bg-pink-50 ring-2 ring-primary; }
         .default-platform { @apply border-gray-300 bg-white hover:bg-gray-50; }
         .error-message { @apply text-sm text-red-600 text-center mt-4; }
         .success-message { @apply text-sm text-green-600 text-center mt-4; }

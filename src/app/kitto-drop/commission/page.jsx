@@ -185,7 +185,7 @@ export default function CommissionPage() {
   // --- Render Loading State ---
   if (isLoading) {
     return (
-        <> <Header /> <main className="bg-white min-h-[calc(100vh-150px)] flex justify-center items-center"> <FaSpinner className="animate-spin text-pink-600 text-4xl" /> <p className="ml-3 text-gray-600">Loading earnings...</p> </main> <Footer /> </>
+        <> <Header /> <main className="bg-white min-h-[calc(100vh-150px)] flex justify-center items-center"> <FaSpinner className="animate-spin text-primary text-4xl" /> <p className="ml-3 text-gray-600">Loading earnings...</p> </main> <Footer /> </>
     );
   }
 
@@ -195,7 +195,7 @@ export default function CommissionPage() {
       <Header />
       <main className="bg-white min-h-[calc(100vh-150px)] py-10 px-4">
         <div className="max-w-5xl mx-auto"> {/* Wider container */}
-          <h1 className="text-3xl sm:text-4xl font-bold text-pink-600 mb-8 text-center">
+          <h1 className="text-3xl sm:text-4xl font-bold text-primary mb-8 text-center">
             My Earnings & Commission
           </h1>
 
@@ -229,7 +229,7 @@ export default function CommissionPage() {
               {/* Withdraw Card */}
               <div className="bg-gray-50 p-6 rounded-xl shadow-md border border-gray-100 sticky top-24"> {/* Sticky for desktop */}
                 <h2 className="text-xl font-semibold text-gray-700 mb-4 flex items-center">
-                  <FaDollarSign className="text-pink-500 mr-2"/> Request Withdrawal
+                  <FaDollarSign className="text-primary mr-2"/> Request Withdrawal
                 </h2>
                 
                 {!hasBankDetails ? (
@@ -256,7 +256,7 @@ export default function CommissionPage() {
                         max={availableBalance} // Maximum withdraw amount
                         placeholder={`e.g., ${availableBalance.toFixed(2)}`}
                         required
-                        className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 text-base shadow-sm"
+                        className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:primary text-base shadow-sm"
                       />
                        <p className="text-xs text-gray-500 mt-1">Available: Rs. {availableBalance.toFixed(2)}</p>
                     </div>
@@ -265,8 +265,8 @@ export default function CommissionPage() {
                     {successMessage && <p className="text-sm text-green-600 text-center"><FaCheckCircle className="inline mr-1.5"/>{successMessage}</p>}
                     {/* Submit Button */}
                     <button type="submit" disabled={isSubmitting || availableBalance <= 0}
-                            className={`w-full bg-pink-600 text-white font-bold py-3 px-6 rounded-lg transition-colors text-lg flex items-center justify-center ${
-                              (isSubmitting || availableBalance <= 0) ? 'opacity-70 cursor-not-allowed' : 'hover:bg-pink-700'
+                            className={`w-full bg-primary text-white font-bold py-3 px-6 rounded-lg transition-colors text-lg flex items-center justify-center ${
+                              (isSubmitting || availableBalance <= 0) ? 'opacity-70 cursor-not-allowed' : 'hover:primary'
                             }`}>
                       {isSubmitting ? <FaSpinner className="animate-spin mr-2" /> : null}
                       {isSubmitting ? 'Submitting...' : 'Request Withdraw'}
@@ -323,7 +323,7 @@ export default function CommissionPage() {
             </div> {/* --- End Right Column --- */}
           </div> {/* End Main Grid */}
 
-          <Link href="/kitto-drop/my-account" className="block mt-8 text-center text-pink-600 hover:underline text-sm">
+          <Link href="/kitto-drop/my-account" className="block mt-8 text-center text-primary hover:underline text-sm">
             ← Back to My Account
           </Link>
         </div>
