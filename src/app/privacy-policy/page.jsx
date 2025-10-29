@@ -70,11 +70,11 @@ export default function PrivacyPolicyPage() {
         </h1>
 
         <p style={pStyle}>
-          අවසන් වරට යාවත්කාලීන කරන ලද්දේ: [මෙතනට අද දවස දාන්න, උදා: 2025 ඔක්තෝබර් 24]
+          අවසන් වරට යාවත්කාලීන කරන ලද්දේ: [2025 ඔක්තෝම්බර් 29]
         </p>
         
         <p style={pStyle}>
-          <strong>Kittoweb</strong> (මෙහි "අප", "අපගේ" ලෙස හැඳින්වෙන) වෙත සාදරයෙන් පිළිගනිමු. 
+          <strong>Kittoweb</strong>වෙත සාදරයෙන් පිළිගනිමු. 
           ඔබ අපගේ වෙබ් අඩවිය (මෙහි "සේවාව" ලෙස හැඳින්වෙන) භාවිතා කරන විට, 
           ඔබගේ පුද්ගලික තොරතුරු අප රැස් කරන, භාවිතා කරන සහ ආරක්ෂා කරන ආකාරය 
           මෙම ප්‍රතිපත්තිය මගින් පැහැදිලි කරයි.
@@ -90,7 +90,7 @@ export default function PrivacyPolicyPage() {
             <strong>පුද්ගලිකව හඳුනාගත හැකි තොරතුරු:</strong> ඔබ ගිණුමක් සාදන විට, 
             දැන්වීමක් පළ කරන විට හෝ අපව සම්බන්ධ කර ගන්නා විට, 
             ඔබගේ නම, ඊමේල් ලිපිනය, දුරකථන අංකය වැනි දේ. 
-            <strong>[!! වැදගත්: ඔයා ඇත්තටම එකතු කරන දේවල් මෙතනට දාන්න !!]</strong>
+            <strong></strong>
           </li>
           <li style={liStyle}>
             <strong>භාවිත දත්ත (Usage Data):</strong> ඔබ වෙබ් අඩවියට පිවිසෙන ආකාරය, 
@@ -120,7 +120,7 @@ export default function PrivacyPolicyPage() {
           <li style={liStyle}>
             සේවාවේ වෙනස්කම්, යාවත්කාලීන කිරීම් හෝ ප්‍රවර්ධන (promotions) 
             පිළිබඳව ඔබව දැනුවත් කිරීමට. 
-            <strong>[!! ඔයා marketing email යවනවා නම් විතරක් මේක දාන්න !!]</strong>
+            <strong></strong>
           </li>
         </ul>
 
@@ -132,8 +132,7 @@ export default function PrivacyPolicyPage() {
           තෙවන පාර්ශවයන්ට විකුණන්නේ නැත, හෝ හුවමාරු කරන්නේ නැත.
         </p>
         <p style={pStyle}>
-          <strong>[!! වැදගත්: ඔයා Supabase, Google Analytics, Stripe වගේ 
-          වෙනත් සේවා පාවිච්චි කරනවා නම්, ඒ බව මෙතන සඳහන් කරන්න ඕන !!]</strong>
+          <strong></strong>
         </p>
 
         {/* --- Section 4 --- */}
