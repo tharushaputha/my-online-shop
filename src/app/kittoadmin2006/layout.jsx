@@ -51,7 +51,7 @@ export default function AdminLayout({ children }) {
         }
     });
 
-    // 3. Cleanup listener
+    // 3. Cleanup listener (FIXED!)
     return () => {
       authListener?.subscription?.unsubscribe();
     };
@@ -89,8 +89,9 @@ export default function AdminLayout({ children }) {
   // 3. User Log වෙලා නම්, Admin Panel එක පෙන්නනවා
   if (!isLoading && session) {
     // <html> සහ <body> tags අයින් කළා.
+    // ප්‍රධාන wrapper <div> එකට background color එක දැම්මා.
     return (
-      <div className="bg-gray-100 flex min-h-screen"> {/* Main container div */}
+      <div className="bg-gray-100 flex min-h-screen"> 
         
         {/* --- Sidebar --- */}
         <aside className="w-60 bg-gray-800 text-gray-200 flex flex-col p-4 shadow-lg">

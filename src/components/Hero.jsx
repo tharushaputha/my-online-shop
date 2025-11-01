@@ -95,13 +95,13 @@ const Hero = ({ onFiltersChange }) => {
                  <div className="bg-white p-2 rounded-full flex items-center shadow-md border border-gray-200">
                     <input type="text" placeholder="What are you looking for?" className="w-full bg-transparent text-gray-700 focus:outline-none px-4 py-2 text-base sm:text-lg" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} autoComplete="off" />
                     {/* ****** PINK COLOR APPLIED HERE ****** */}
-                    <button type="submit" className="bg-primary text-white font-bold py-2.5 px-6 rounded-full hover:bg-pink-700 transition-colors flex-shrink-0 flex items-center"> <FaSearch className="mr-1.5 h-4 w-4" /> Search </button>
+                    <button type="submit" className="bg-white text-primary font-bold py-2.5 px-6 rounded-full hover:bg-gray-100 transition-colors flex-shrink-0 flex items-center"> <FaSearch className="mr-1.5 h-4 w-4" /> Search </button>
                  </div>
                  {/* Suggestions */}
                  {(isLoadingSuggestions || suggestions.length > 0 || (searchTerm.trim().length >= 2 && !isLoadingSuggestions)) && (
                    <ul className="absolute left-0 right-0 top-full mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg z-30 text-left max-h-60 overflow-y-auto">
                      {/* ****** PINK COLOR APPLIED HERE ****** */}
-                     {isLoadingSuggestions && <li className="px-4 py-3 text-gray-500 text-center"><FaSpinner className="animate-spin inline mr-2 text-pink-600"/>Searching...</li>}
+                     {isLoadingSuggestions && <li className="px-4 py-3 text-gray-500 text-center"><FaSpinner className="animate-spin inline mr-2 text-primary"/>Searching...</li>}
                      {/* ****** PINK COLOR APPLIED HERE ****** */}
                      {!isLoadingSuggestions && suggestions.map((ad) => ( <li key={ad.id} className="px-4 py-2 hover:bg-pink-50 cursor-pointer text-gray-800" onClick={() => handleSuggestionClick(ad)} onMouseDown={(e) => e.preventDefault()}> {ad.title} </li> ))}
                      {!isLoadingSuggestions && suggestions.length === 0 && searchTerm.trim().length >= 2 && ( <li className="px-4 py-2 text-gray-500">No matching ads found.</li> )}

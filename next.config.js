@@ -1,21 +1,28 @@
 // next.config.js
 
 const withPWA = require('next-pwa')({
-  dest: 'public', // PWA files ටික save වෙන තැන
-  register: true, // Service worker එක auto register කරනවා
-  skipWaiting: true, // අලුත් update එකක් ආපු ගමන් auto දානවා
-  disable: process.env.NODE_ENV === 'development', // 'npm run dev' වලදී PWA එක disable කරනවා
+  dest: 'public',
+  register: true,
+  skipWaiting: true,
+  disable: process.env.NODE_ENV === 'development',
 });
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // --- ඔයාගේ පරණ images config එක මෙතනට දැම්මා ---
-  images: {
-    domains: ['ezeeongazmloinghitxl.supabase.co'], // <-- ඔයාගේ hostname එක
-  },
-  // ---------------------------------------------
   reactStrictMode: true,
-  // ඔයාට තව config තියෙනවා නම් මෙතනට දාන්න...
+  images: {
+    // "domains" (පරණ ක්‍රමය) වෙනුවට අලුත් "remotePatterns" ක්‍රමය පාවිච්චි කරමු
+    remotePatterns: [
+      {
+        protocol: 'https',
+        // ****** මෙතන තමයි Typo එක Fix කලේ ******
+        hostname: 'iezeongazmloinqhitxi.supabase.co', 
+        // *******************************************
+        port: '',
+        pathname: '/storage/v1/object/public/**', // Supabase storage වල ඕනෑම path එකක් allow කරනවා
+      },
+    ],
+  },
 };
 
 // PWA config එක Next.js config එකත් එක්ක එකතු කරනවා
