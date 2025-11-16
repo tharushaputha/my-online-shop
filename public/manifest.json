@@ -1,20 +1,23 @@
 {
-  "theme_color": "#9be3dd",
-  "background_color": "#ffffff",
+  "name": "SithRoo.Store - Digital Ecosystem",
+  "short_name": "SithRoo",
+  "description": "SithRoo.Store: A secure digital ecosystem featuring the Kitto classifieds platform and future services.",
+  
+  "theme_color": "#1e3a8a",
+  "background_color": "#000000",
+  
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
-  "name": "Kitto - Find Your Next Treasure",
-  "short_name": "Kitto",
-  "description": "Buy and sell new and used items in Sri Lanka",
+  
   "icons": [
     {
-      "src": "/icons/icon-192x192.png",
+      "src": "/icons/icon-192x192.png", 
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/icons/icon-512x512.png",
+      "src": "/icons/icon-512x512.png", 
       "sizes": "512x512",
       "type": "image/png"
     }

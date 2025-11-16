@@ -8,7 +8,7 @@
   background-size: 300% 300%;
   animation: galaxyFlow 20s ease infinite alternate; /* Slower, smoother flow */
   z-index: -1; /* Buttons වලට යටින් තියන්න */
-  overflow: hidden; /* Scroll එන එක නවත්වන්න */
+  overflow: hidden; 
 }
 
 @keyframes galaxyFlow {
@@ -22,89 +22,104 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; /* Full viewport height */
+  min-height: 100vh; 
   padding: 20px;
-  box-sizing: border-box; /* Padding නිසා overflow එන එක නවත්වන්න */
-  position: relative; /* z-index වැඩ කරන්න */
-  z-index: 1; /* Loader එකට යටින්, background එකට උඩින් */
+  box-sizing: border-box; 
+  position: relative; 
+  z-index: 1; 
 }
 
 .title {
-  font-size: 3.5rem; /* Larger title */
-  color: #e0f2f7; /* Light blue text */
+  font-size: 3.5rem; 
+  color: #e0f2f7; 
   margin-bottom: 50px;
   text-align: center;
-  text-shadow: 0 0 15px rgba(255, 255, 255, 0.7); /* Subtle glow */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font */
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.7); 
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
 }
 
-/* === Glassy Buttons === */
+/* === Glassy Buttons (Existing Styles) === */
 .button {
   display: block;
-  width: 85%; /* Slightly wider buttons */
-  max-width: 450px; /* Max width */
-  font-size: 1.8rem; /* Larger font for buttons */
-  font-weight: 600; /* Bolder text */
-  color: #e0f2f7; /* Light text on buttons */
+  width: 85%; 
+  max-width: 450px; 
+  font-size: 1.8rem; 
+  font-weight: 600; 
+  color: #e0f2f7; 
   padding: 25px 35px;
   margin: 18px;
   text-decoration: none;
   text-align: center;
-  border-radius: 15px; /* More rounded corners */
-  backdrop-filter: blur(15px); /* Glassy effect */
-  -webkit-backdrop-filter: blur(15px); /* Safari support */
-  border: 1px solid rgba(255, 255, 255, 0.3); /* Light border */
+  border-radius: 15px; 
+  backdrop-filter: blur(15px); 
+  -webkit-backdrop-filter: blur(15px); 
+  border: 1px solid rgba(255, 255, 255, 0.3); 
   
-  /* Gradient Background (Mint Green, Sky Blue, Pink Mix) */
+  /* Gradient Background */
   background: linear-gradient(135deg, 
-              rgba(152, 216, 216, 0.3) 0%, /* Mint Green (transparent) */
-              rgba(135, 206, 235, 0.3) 50%, /* Sky Blue (transparent) */
-              rgba(240, 128, 128, 0.3) 100% /* Coral Pink (transparent) */
+              rgba(159, 245, 245, 0.3) 0%, 
+              rgba(135, 206, 235, 0.3) 50%, 
+              rgba(240, 128, 128, 0.3) 100% 
             );
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); /* Subtle shadow */
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); 
 
-  /* === Hover Animation === */
-  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth transition */
-  transform: translateY(0); /* Initial state */
-  animation: floatEffect 3s ease-in-out infinite alternate; /* Floating effect */
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); 
+  transform: translateY(0); 
+  animation: floatEffect 3s ease-in-out infinite alternate; 
 }
 
 /* Button Hover State */
 .button:hover {
-  transform: translateY(-5px) scale(1.03); /* Lifts and slightly grows */
+  transform: translateY(-5px) scale(1.03); 
   background: linear-gradient(135deg, 
-              rgba(88, 241, 241, 0.5) 0%, /* More opaque on hover */
+              rgb(120, 238, 238) 0%, 
               rgba(135, 206, 235, 0.5) 50%, 
-              rgba(243, 154, 154, 0.966) 100%
+              rgb(241, 151, 151) 100%
             );
-  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4); /* Stronger shadow */
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4); 
 }
 
-/* Individual Button Animation Delays for varied floating */
-.button:nth-child(2) { animation-delay: 0.5s; }
-.button:nth-child(3) { animation-delay: 1s; }
-
-
-/* === Floating Animation === */
 @keyframes floatEffect {
-  0% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
 }
 
 /* Responsive Adjustments */
 @media (max-width: 600px) {
-  .title {
-    font-size: 2.5rem;
-  }
-  .button {
-    font-size: 1.4rem;
-    padding: 20px 25px;
-  }
+  .title { font-size: 2.5rem; }
+  .button { font-size: 1.4rem; padding: 20px 25px; }
+}
+
+
+/* ======================================= */
+/* === New: Home Page Footer Links Styles === */
+/* ======================================= */
+.homeFooter {
+    position: absolute; 
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%); 
+    padding: 10px;
+    display: flex;
+    gap: 15px; 
+    flex-wrap: wrap; 
+    justify-content: center; 
+    max-width: 95%; /* Screen එකේ 95%ක් ගන්න */
+    z-index: 10;
+}
+
+.footerLink {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7); /* ලා සුදු පාට */
+    text-decoration: none;
+    transition: color 0.2s, transform 0.2s;
+    padding: 5px 8px;
+    border-radius: 5px;
+    font-weight: 500;
+}
+
+.footerLink:hover {
+    color: #98d8d8; /* Hover කරද්දී Mint Green පාට වෙන්න */
+    transform: scale(1.05);
 }

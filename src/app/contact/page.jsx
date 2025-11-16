@@ -1,5 +1,5 @@
 // File: app/contact/page.jsx
-// White Background / Black Text Clean Design
+// White Background / Black Text Clean Design (Brand-Inclusive)
 
 import React from 'react';
 // Icons ටික import කරගන්නවා
@@ -8,11 +8,11 @@ import { FaEnvelope, FaPhoneAlt } from 'react-icons/fa';
 // Contact Us පිටුව සඳහා වන React component එක
 export default function ContactUsPage() {
   
-  // --- අලුත් "Normal White" Styles ---
+  // --- Standard White/Black Styles ---
   const styles = {
     // පිටත Background එක (ලා අළු පාට)
     pageWrapper: {
-      backgroundColor: '#f4f4f4', // Light gray background
+      backgroundColor: '#f4f4f4', 
       minHeight: '100vh',
       padding: '40px 20px',
       fontFamily: 'Arial, sans-serif',
@@ -20,9 +20,9 @@ export default function ContactUsPage() {
     // අන්තර්ගතය තියෙන සුදු Box එක (Card)
     contentBox: {
       maxWidth: '800px',
-      margin: '0 auto', // මැදට එන්න
+      margin: '0 auto',
       padding: '40px',
-      backgroundColor: '#FFFFFF', // සුදු පාට Box එක
+      backgroundColor: '#FFFFFF', 
       borderRadius: '8px',
       boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
       textAlign: 'center',
@@ -32,7 +32,7 @@ export default function ContactUsPage() {
       fontSize: '2.5rem', 
       fontWeight: 'bold', 
       marginBottom: '25px', 
-      color: '#111111', // තද කළු පාට
+      color: '#111111', 
     },
     // හැඳින්වීමේ ඡේදය
     pIntro: { 
@@ -46,20 +46,20 @@ export default function ContactUsPage() {
       display: 'flex', 
       justifyContent: 'center', 
       gap: '30px', 
-      textAlign: 'center', // Contact boxes ඇතුළේ text මැදට
-      flexWrap: 'wrap', // Mobile වලට පහළට එන්න
+      textAlign: 'center', 
+      flexWrap: 'wrap', 
     },
     // Individual Contact Box
     contactBox: {
-      flex: 1, // සමාන පළල
-      minWidth: '280px', // Mobile වලදි කැඩෙන්නේ නැතුව තියෙන්න
+      flex: 1, 
+      minWidth: '280px', 
       padding: '30px',
-      backgroundColor: '#FAFAFA', // හරිම ලා අළු පාටක්
+      backgroundColor: '#FAFAFA', 
       borderRadius: '8px',
       border: '1px solid #E5E7EB',
     },
     // Icon පාට
-    iconColor: '#007bff', // Professional Blue
+    iconColor: '#007bff', 
     // Box මාතෘකාව
     h2: {
       fontSize: '1.5rem',
@@ -87,10 +87,9 @@ export default function ContactUsPage() {
           Contact Us
         </h1>
 
-        {/* හැඳින්වීමේ ඡේදය - English */}
+        {/* හැඳින්වීමේ ඡේදය - Brand-Inclusive වෙනස් කළා */}
         <p style={styles.pIntro}>
-          Our team is ready to assist you with any questions, suggestions, or complaints you may have.
-          We aim to respond to all inquiries within 24 hours.
+          If you have any questions related to the Kitto platform, SithRoo Library (or any other service under the SithRoo.Store banner), our dedicated support team is ready to assist you. We aim to respond to all inquiries within 24 hours.
         </p>
 
         {/* Contact ක්‍රම 2 Box 2කින් */}

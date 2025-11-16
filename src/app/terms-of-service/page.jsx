@@ -1,5 +1,5 @@
 // File: app/terms-of-service/page.jsx
-// White Background / Black Text Clean Design (Legal Document)
+// White Background / Black Text Clean Design (Brand-Inclusive)
 
 import React from 'react';
 import Link from 'next/link';
@@ -7,16 +7,14 @@ import Link from 'next/link';
 // Terms of Service පිටුව සඳහා වන React component එක
 export default function TermsOfServicePage() {
   
-  // --- අලුත් "Normal White" Styles (Privacy Policy එකට සමානයි) ---
+  // --- Standard White/Black Styles ---
   const styles = {
-    // පිටත Background එක
     pageWrapper: {
-      backgroundColor: '#f4f4f4', // Light gray background
+      backgroundColor: '#f4f4f4', 
       minHeight: '100vh',
       padding: '40px 20px',
       fontFamily: 'Arial, sans-serif',
     },
-    // අන්තර්ගතය තියෙන සුදු Box එක (Card)
     contentBox: {
       maxWidth: '850px', 
       margin: '0 auto',
@@ -24,17 +22,15 @@ export default function TermsOfServicePage() {
       backgroundColor: '#FFFFFF', 
       borderRadius: '8px',
       boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
-      textAlign: 'left', // Legal document requires left alignment
+      textAlign: 'left', 
     },
-    // ප්‍රධාන මාතෘකාව
     h1: {
       fontSize: '2.5rem', 
       fontWeight: 'bold', 
       marginBottom: '25px', 
       color: '#111111', 
-      textAlign: 'center', // Main Title only centered
+      textAlign: 'center', 
     },
-    // Section මාතෘකා
     h2: {
       fontSize: '1.8rem', 
       fontWeight: 'bold', 
@@ -42,22 +38,12 @@ export default function TermsOfServicePage() {
       marginBottom: '15px',
       color: '#111111', 
     },
-    // සාමාන්‍ය text
     p: {
       fontSize: '1rem', 
       color: '#333333', 
       marginBottom: '15px',
       lineHeight: '1.7', 
     },
-    // List item
-    li: {
-      fontSize: '1rem',
-      color: '#333333',
-      lineHeight: '1.7',
-      marginBottom: '10px',
-      marginLeft: '20px', 
-    },
-    // Link style (Professional Blue)
     linkStyle: {
       color: '#007bff',
       textDecoration: 'underline',
@@ -69,7 +55,6 @@ export default function TermsOfServicePage() {
     <div style={styles.pageWrapper}>
       <div style={styles.contentBox}>
         
-        {/* ප්‍රධාන මාතෘකාව - English */}
         <h1 style={styles.h1}>
           Terms of Service
         </h1>
@@ -79,16 +64,16 @@ export default function TermsOfServicePage() {
         </p>
         
         <p style={styles.p}>
-          Please read these Terms of Service ("Terms") carefully before accessing or using the <strong>Kitto</strong> website ("Service").
+          Please read these Terms of Service ("Terms") carefully before accessing or using the <strong>SithRoo.Store</strong> digital platform and any of its associated services, including the Kitto classifieds platform.
         </p>
         <p style={styles.p}>
-          Your access to and use of the Service is conditioned upon your acceptance of and compliance with these Terms. These Terms apply to all users who access or use the Service.
+          Your access to and use of the Service is conditioned upon your acceptance of and compliance with these Terms. These Terms apply to all users across the entire SithRoo.Store ecosystem.
         </p>
 
         {/* --- Section 1: Accounts --- */}
         <h2 style={styles.h2}>1. Accounts</h2>
         <p style={styles.p}>
-          When you create an account with us, you must ensure that the information you provide is always accurate, complete, and up-to-date. Failure to do so constitutes a breach of the Terms, which may result in immediate termination of your account.
+          You must ensure that the information you provide when creating an account is always accurate, complete, and up-to-date. This is especially critical when posting ads on the Kitto platform.
         </p>
         <p style={styles.p}>
           You are responsible for safeguarding the password that you use to access the Service.
@@ -97,28 +82,28 @@ export default function TermsOfServicePage() {
         {/* --- Section 2: User Content --- */}
         <h2 style={styles.h2}>2. User Content</h2>
         <p style={styles.p}>
-          Our Service allows you to post advertisements, photos, and other information ("Content"). You are solely responsible for the accuracy, legality, and suitability of the Content you post.
+          The Kitto service allows you to post advertisements, photos, and other information ("Content"). You are solely responsible for the accuracy, legality, and suitability of the Content you post.
         </p>
         <p style={styles.p}>
-          We reserve the right to remove or edit any Content that we deem illegal, fraudulent, obscene, threatening, or otherwise inappropriate.
+          We reserve the right to remove or edit any Content that we deem illegal, fraudulent, obscene, threatening, or otherwise inappropriate across the SithRoo.Store platform.
         </p>
         <p style={styles.p}>
-          <strong style={{ color: '#dc3545' }}>[IMPORTANT: Prohibited Items]</strong> Content related to illegal drugs, weapons, or trade in protected animals is strictly prohibited.
+          <strong style={{ color: '#dc3545' }}>[IMPORTANT: Prohibited Items]</strong> Content related to illegal drugs, weapons, or trade in protected animals is strictly prohibited on the Kitto platform.
         </p>
 
         {/* --- Section 3: Transactions --- */}
-        <h2 style={styles.h2}>3. Transactions</h2>
+        <h2 style={styles.h2}>3. Transactions (Kitto Platform)</h2>
         <p style={styles.p}>
-          Kittoweb is only a platform that connects buyers and sellers. We do not sell or purchase any items.
+          SithRoo.Store (via the Kitto platform) is only a platform that connects buyers and sellers. We do not sell or purchase any items ourselves.
         </p>
         <p style={styles.p}>
-          Any transaction, communication, and agreement between buyers and sellers are solely their responsibility. We are not responsible for the safety or quality of transactions that occur.
+          Any transaction, communication, and agreement between buyers and sellers are solely their responsibility. We are not responsible for the safety or quality of transactions that occur on the Kitto platform.
         </p>
 
         {/* --- Section 4: Termination --- */}
         <h2 style={styles.h2}>4. Termination</h2>
         <p style={styles.p}>
-          We may terminate or suspend your account immediately, without prior notice or liability, if you breach these Terms.
+          We may terminate or suspend your account immediately, without prior notice or liability, if you breach these Terms anywhere within the SithRoo.Store ecosystem.
         </p>
 
         {/* --- Section 5: Governing Law --- */}

@@ -1,50 +1,44 @@
 // File: app/about/page.jsx
-// White Background / Black Text Design
+// White Background / Black Text Design (Brand-Inclusive)
 
 import React from 'react';
 
-// About Us පිටුව සඳහා වන React component එක
 export default function AboutUsPage() {
   
-  // --- අලුත් "Normal White" Styles ---
+  // --- Standard White/Black Styles (Changes only in content) ---
   const styles = {
-    // පිටත Background එක (ලා අළු පාට)
     pageWrapper: {
       backgroundColor: '#f4f4f4', // Light gray background
       minHeight: '100vh',
       padding: '40px 20px',
       fontFamily: 'Arial, sans-serif',
     },
-    // අන්තර්ගතය තියෙන සුදු Box එක
     contentBox: {
       maxWidth: '800px',
-      margin: '0 auto', // මැදට එන්න
+      margin: '0 auto',
       padding: '40px',
       backgroundColor: '#FFFFFF', // සුදු පාට Box එක
-      borderRadius: '8px', // පොඩි round corner එකක්
-      boxShadow: '0 4px 12px rgba(0,0,0,0.05)', // හරිම පොඩි shadow එකක්
+      borderRadius: '8px',
+      boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
     },
-    // ප්‍රධාන මාතෘකාව (Black)
     h1: {
       fontSize: '2.5rem', 
       fontWeight: 'bold', 
       marginBottom: '20px', 
-      color: '#111111', // තද කළු පාට
+      color: '#111111', 
     },
-    // අනු මාතෘකා (Black)
     h2: {
       fontSize: '1.8rem', 
       fontWeight: 'bold', 
       marginTop: '30px',
       marginBottom: '15px',
-      color: '#111111', // තද කළු පාට
+      color: '#111111', 
     },
-    // සාමාන්‍ය text (Dark Gray)
     p: {
       fontSize: '1rem', 
-      color: '#333333', // කියවන්න පහසු අළු පාටක්
+      color: '#333333', 
       marginBottom: '15px',
-      lineHeight: '1.7', // පේළි අතර ඉඩ
+      lineHeight: '1.7', 
     }
   };
   // ---------------------------------
@@ -53,39 +47,42 @@ export default function AboutUsPage() {
     <div style={styles.pageWrapper}>
       <div style={styles.contentBox}>
         
-        {/* 1. English වලට මාරු කළා */}
         <h1 style={styles.h1}>
-          About Us
+          About SithRoo.Store
         </h1>
 
+        {/* === BRAND INCLUSIVE TEXT (SithRoo & Kitto ගැන කියනවා) === */}
         <p style={styles.p}>
-          <strong>Welcome to Kitto!</strong> We are dedicated to creating an
-          online marketplace that easily connects buyers and sellers in Sri Lanka.
+          Welcome to <strong>SithRoo.Store</strong>, the official digital ecosystem dedicated 
+          to connecting communities across Sri Lanka. We are committed to providing 
+          diverse, modern, and reliable online services.
         </p>
         
         <p style={styles.p}>
-          Whether you are looking to sell a new or used item, or trying to find
-          what you need at the best price, our goal is to provide a safe,
-          reliable, and easy-to-use platform.
+          Our platform is home to the flagship classifieds service, Kitto, where you can 
+          buy and sell new and used items, as well as the SithRoo Library (Coming Soon), 
+          which will offer premium digital resources. Our focus is on delivering a 
+          safe and intuitive experience for all services under the SithRoo banner.
         </p>
 
-        {/* 2. තීරු 2 අයින් කරලා, Normal විදිහට දැම්මා */}
+        {/* Vision/Mission ටිකත් Ecosystem එකට ගැලපෙන්න වෙනස් කළා */}
         
         <h2 style={styles.h2}>
           Our Vision
         </h2>
         <p style={styles.p}>
-          To become the most trusted, popular, and user-friendly name in
-          Sri Lanka's e-commerce sector.
+          To be the leading and most comprehensive digital services provider in Sri Lanka, 
+          fostering trusted services and vibrant community connections across all our platforms.
         </p>
 
         <h2 style={styles.h2}>
           Our Mission
         </h2>
         <p style={styles.p}>
-          To build an environment where anyone can easily and safely buy and
-          sell goods, utilizing modern technology.
+          To continuously innovate and utilize modern technology to offer secure, transparent, 
+          and high-quality digital services, making every online interaction simple and rewarding.
         </p>
+        {/* ======================================================= */}
 
       </div>
     </div>

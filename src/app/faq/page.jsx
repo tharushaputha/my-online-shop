@@ -1,11 +1,11 @@
 // File: app/faq/page.jsx
-// White Background / Black Text Clean Design (FAQ with Accordion)
+// White Background / Black Text Clean Design (FAQ with Accordion - Brand Inclusive)
 
 import React from 'react';
 
 export default function FAQPage() {
   
-  // --- අලුත් "Normal White" Styles ---
+  // --- Standard White/Black Styles ---
   const styles = {
     // පිටත Background එක
     pageWrapper: {
@@ -16,7 +16,7 @@ export default function FAQPage() {
     },
     // අන්තර්ගතය තියෙන සුදු Box එක (Card)
     contentBox: {
-      maxWidth: '850px', // FAQ වලට පොඩ්ඩක් පළල වැඩියෙන් තියමු
+      maxWidth: '850px', 
       margin: '0 auto', 
       padding: '40px',
       backgroundColor: '#FFFFFF', 
@@ -51,7 +51,7 @@ export default function FAQPage() {
       fontWeight: '600',
       color: '#111111',
       padding: '18px 20px',
-      backgroundColor: '#FAFAFA', // ලා අළු පාටක්
+      backgroundColor: '#FAFAFA', 
       border: '1px solid #E5E7EB',
       borderRadius: '8px',
       cursor: 'pointer',
@@ -72,7 +72,7 @@ export default function FAQPage() {
     // details tag එකටම දාන style
     detailsStyle: {
       borderRadius: '8px',
-      overflow: 'hidden', // Corners ලස්සනට එන්න
+      overflow: 'hidden', 
     }
   };
   // ---------------------------------
@@ -81,66 +81,76 @@ export default function FAQPage() {
     <div style={styles.pageWrapper}>
       <div style={styles.contentBox}>
         
-        {/* ප්‍රධාන මාතෘකාව - English */}
+        {/* ප්‍රධාන මාතෘකාව */}
         <h1 style={styles.h1}>
           Frequently Asked Questions (FAQ)
         </h1>
 
-        {/* හැඳින්වීමේ ඡේදය - English */}
+        {/* හැඳින්වීමේ ඡේදය - Platform එකට ගැලපෙන්න වෙනස් කළා */}
         <p style={styles.pIntro}>
-          Find answers to common questions about using Kittoweb, posting ads, and transactions.
+          Find answers to common questions about using the SithRoo.Store platform and its primary classifieds service, Kitto.
         </p>
 
         {/* FAQ ප්‍රශ්න ටික */}
         <div style={styles.qaContainer}>
           
-          {/* ප්‍රශ්නය 1 */}
+          {/* ප්‍රශ්නය 1 - Kitto ගැන පැහැදිලි කිරීම */}
           <details style={styles.detailsStyle}>
             <summary style={styles.question}>
-              How do I create an account on Kitto?
+              What is the relationship between SithRoo.Store and Kitto?
             </summary>
             <div style={styles.answer}>
-              Click the "Sign Up" or "Register" button on the homepage. Enter your details (name, email, password) to create the account. It is completely free to join!
+              SithRoo.Store is the main digital platform (the ecosystem). Kitto is the classifieds service operating under the SithRoo.Store banner, focused on connecting buyers and sellers for new and used items.
             </div>
           </details>
 
-          {/* ප්‍රශ්නය 2 */}
+          {/* ප්‍රශ්නය 2 - Account එක Kitto වලට විතරක් නෙමෙයි */}
           <details style={styles.detailsStyle}>
             <summary style={styles.question}>
-              How do I post an advertisement (Ad) for sale?
+              How do I create an account on the SithRoo.Store platform?
             </summary>
             <div style={styles.answer}>
-              Once logged in, click the "Post Ad" button. Then, enter the item's detailed description, upload photos, set the price, and select the appropriate category to publish the ad.
+              Click the "Sign Up" or "Register" button on the homepage. Enter your details (name, email, password) to create the account. This single account grants you access to all SithRoo services, including Kitto. It is completely free to join!
             </div>
           </details>
 
-          {/* ප්‍රශ්නය 3 */}
+          {/* ප්‍රශ්නය 3 - Ad Post කිරීම */}
           <details style={styles.detailsStyle}>
             <summary style={styles.question}>
-              How do I buy an item?
+              How do I post an advertisement (Ad) using the Kitto service?
             </summary>
             <div style={styles.answer}>
-              Select the item you want and contact the seller directly using the provided information (phone number or chat). Kittoweb is a platform that connects buyers and sellers; transactions should be completed directly between the two parties.
+              Once logged into the SithRoo platform, navigate to the Kitto section. Click the "Post Ad" button. Then, enter the item's detailed description, upload photos, set the price, and select the appropriate category to publish the ad.
             </div>
           </details>
 
-          {/* ප්‍රශ්නය 4 */}
+          {/* ප්‍රශ්නය 4 - Boost කිරීම */}
           <details style={styles.detailsStyle}>
             <summary style={styles.question}>
-              How do I boost my ad to the top?
+              How do I boost my ad to the top on Kitto?
             </summary>
             <div style={styles.answer}>
-              Go to your "My Ads" page, select the ad you wish to boost. Then, select the "Boost Ad" option and complete the payment to display the ad at the top of the listings.
+              Go to your "My Ads" page within the Kitto section. Select the ad you wish to boost. Then, select the "Boost Ad" option and complete the payment to display the ad at the top of the listings.
             </div>
           </details>
           
-          {/* ප්‍රශ්නය 5 */}
+          {/* ප්‍රශ්නය 5 - Buying an item */}
           <details style={styles.detailsStyle}>
             <summary style={styles.question}>
-              What should I do if I see a fraudulent (Scam) ad?
+              How do I buy an item listed on Kitto?
             </summary>
             <div style={styles.answer}>
-              Click the "Report Ad" button located under every advertisement. Our team will immediately investigate the report and take necessary action to remove misleading content.
+              Select the item you want and contact the seller directly using the provided information (phone number or chat). SithRoo.Store (via Kitto) is a platform that connects buyers and sellers; transactions should be completed directly between the two parties.
+            </div>
+          </details>
+
+          {/* ප්‍රශ්නය 6 - Scam Reporting */}
+          <details style={styles.detailsStyle}>
+            <summary style={styles.question}>
+              What should I do if I see a fraudulent (Scam) ad on Kitto?
+            </summary>
+            <div style={styles.answer}>
+              Click the "Report Ad" button located under every advertisement on the Kitto page. Our team will immediately investigate the report and take necessary action to remove misleading content from the platform.
             </div>
           </details>
 
