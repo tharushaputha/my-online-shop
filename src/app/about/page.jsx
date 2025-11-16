@@ -1,107 +1,91 @@
-// File එක: app/about/page.jsx
+// File: app/about/page.jsx
+// White Background / Black Text Design
 
 import React from 'react';
-// Image component එක අපිට දැන් ඕන නෑ, ඒ නිසා අයින් කළා.
 
 // About Us පිටුව සඳහා වන React component එක
 export default function AboutUsPage() {
   
-  // පාට (Colors)
-  const MINT_GREEN_BG = '#F0FFF4'; // හරිම ලා Mint Green පාටක් (Honeydew)
-  const HEADING_PINK = '#D81B60';  // ලස්සන, đậm (deep) Pink පාටක්
-  const TEXT_COLOR = '#334155'; // කියවන්න පහසු, තද අළු පාටක්
+  // --- අලුත් "Normal White" Styles ---
+  const styles = {
+    // පිටත Background එක (ලා අළු පාට)
+    pageWrapper: {
+      backgroundColor: '#f4f4f4', // Light gray background
+      minHeight: '100vh',
+      padding: '40px 20px',
+      fontFamily: 'Arial, sans-serif',
+    },
+    // අන්තර්ගතය තියෙන සුදු Box එක
+    contentBox: {
+      maxWidth: '800px',
+      margin: '0 auto', // මැදට එන්න
+      padding: '40px',
+      backgroundColor: '#FFFFFF', // සුදු පාට Box එක
+      borderRadius: '8px', // පොඩි round corner එකක්
+      boxShadow: '0 4px 12px rgba(0,0,0,0.05)', // හරිම පොඩි shadow එකක්
+    },
+    // ප්‍රධාන මාතෘකාව (Black)
+    h1: {
+      fontSize: '2.5rem', 
+      fontWeight: 'bold', 
+      marginBottom: '20px', 
+      color: '#111111', // තද කළු පාට
+    },
+    // අනු මාතෘකා (Black)
+    h2: {
+      fontSize: '1.8rem', 
+      fontWeight: 'bold', 
+      marginTop: '30px',
+      marginBottom: '15px',
+      color: '#111111', // තද කළු පාට
+    },
+    // සාමාන්‍ය text (Dark Gray)
+    p: {
+      fontSize: '1rem', 
+      color: '#333333', // කියවන්න පහසු අළු පාටක්
+      marginBottom: '15px',
+      lineHeight: '1.7', // පේළි අතර ඉඩ
+    }
+  };
+  // ---------------------------------
 
   return (
-    // ප්‍රධාන පිටුවට අදාළ div එක
-    <div style={{
-      backgroundColor: MINT_GREEN_BG, // පසුබිම Mint Green
-      minHeight: '100vh', // සම්පූර්ණ screen එකම cover වෙන්න
-      padding: '50px 20px', // උඩ/යට සහ වම්/දකුණ ඉඩ
-      fontFamily: 'Arial, sans-serif',
-    }}>
-      
-      {/* අන්තර්ගතය තියෙන Box එක */}
-      <div style={{ 
-        maxWidth: '900px',
-        margin: '0 auto', // මැදට එන්න
-        padding: '40px',
-        backgroundColor: '#FFFFFF', // ඇතුළත Box එක සුදු පාටින්
-        borderRadius: '15px', // ලස්සනට round corners
-        boxShadow: '0 10px 30px rgba(0,0,0,0.08)', // පොඩි shadow එකක්
-        textAlign: 'center', // හැමදේම මැදට
-      }}>
+    <div style={styles.pageWrapper}>
+      <div style={styles.contentBox}>
         
-        {/* ප්‍රධාන මාතෘකාව */}
-        <h1 style={{ 
-          fontSize: '42px', 
-          fontWeight: 'bold', 
-          marginBottom: '25px', 
-          color: HEADING_PINK, // මාතෘකාව Pink පාටින්
-        }}>
-          අප ගැන (About Us)
+        {/* 1. English වලට මාරු කළා */}
+        <h1 style={styles.h1}>
+          About Us
         </h1>
 
-        {/* හැඳින්වීමේ ඡේදය */}
-        <p style={{ 
-          fontSize: '17px', 
-          color: TEXT_COLOR, 
-          marginBottom: '20px',
-          lineHeight: '1.8',
-        }}>
-          <strong>Kittoweb</strong> වෙත ඔබව සාදරයෙන් පිළිගනිමු! අපි ශ්‍රී ලංකාවේ ගැනුම්කරුවන් සහ විකුණුම්කරුවන් පහසුවෙන් සම්බන්ධ කරන ඔන්ලයින් වෙළඳපොළක් නිර්මාණය කිරීමට කැපවී සිටිමු.
+        <p style={styles.p}>
+          <strong>Welcome to Kitto!</strong> We are dedicated to creating an
+          online marketplace that easily connects buyers and sellers in Sri Lanka.
         </p>
         
-        <p style={{ 
-          fontSize: '17px', 
-          color: TEXT_COLOR, 
-          marginBottom: '30px',
-          lineHeight: '1.8',
-        }}>
-          ඔබ අලුත් හෝ පාවිච්චි කළ භාණ්ඩයක් විකිණීමට බලාපොරොත්තු වුවත්, හෝ ඔබට අවශ්‍ය දේ හොඳම මිලට සොයා ගැනීමට උත්සාහ කළත්, ඒ සඳහා ආරක්ෂිත, විශ්වාසදායී සහ භාවිතයට පහසු වේදිකාවක් සැපයීම අපගේ අරමුණයි.
+        <p style={styles.p}>
+          Whether you are looking to sell a new or used item, or trying to find
+          what you need at the best price, our goal is to provide a safe,
+          reliable, and easy-to-use platform.
         </p>
 
-        {/* !!!!! Kitto Image එක තිබුණු div එක මෙතනින් අයින් කළා !!!!! */}
+        {/* 2. තීරු 2 අයින් කරලා, Normal විදිහට දැම්මා */}
+        
+        <h2 style={styles.h2}>
+          Our Vision
+        </h2>
+        <p style={styles.p}>
+          To become the most trusted, popular, and user-friendly name in
+          Sri Lanka's e-commerce sector.
+        </p>
 
-        {/* දැක්ම සහ මෙහෙවර තීරු 2කින් */}
-        <div style={{ 
-          display: 'flex', // තීරු 2ක් හදන්න
-          justifyContent: 'space-between', // දෙපැත්තට වෙන්න
-          gap: '30px', // තීරු 2 අතර ඉඩ
-          marginTop: '40px', // උඩින් පොඩි ඉඩක්
-          textAlign: 'left', // මේ Box එකේ text එක වමට
-        }}>
-          
-          {/* දැක්ම Box එක */}
-          <div style={{ flex: 1 }}> {/* flex: 1 දාලා තීරු 2ක සමාන පළලක් දෙනවා */}
-            <h2 style={{ 
-              fontSize: '28px', 
-              fontWeight: 'bold', 
-              marginBottom: '15px',
-              color: HEADING_PINK, // Pink පාටින්
-            }}>
-              අපේ දැක්ම (Our Vision)
-            </h2>
-            <p style={{ fontSize: '16px', color: TEXT_COLOR, lineHeight: '1.7' }}>
-              ශ්‍රී ලංකාවේ e-commerce ක්ෂේත්‍රයේ වඩාත්ම විශ්වාසවන්ත, ජනප්‍රියම සහ පරිශීලක-හිතකාමී නාමය බවට පත්වීම.
-            </p>
-          </div>
-
-          {/* මෙහෙවර Box එක */}
-          <div style={{ flex: 1 }}>
-            <h2 style={{ 
-              fontSize: '28px', 
-              fontWeight: 'bold', 
-              marginBottom: '15px',
-              color: HEADING_PINK, // Pink පාටින්
-            }}>
-              අපේ මෙහෙවර (Our Mission)
-            </h2>
-            <p style={{ fontSize: '16px', color: TEXT_COLOR, lineHeight: '1.7' }}>
-              නවීන තාක්ෂණය උපයෝගී කරගනිමින්, ඕනෑම කෙනෙකුට, පහසුවෙන් සහ ආරක්ෂිතව භාණ්ඩ මිලදී ගැනීමට සහ විකිණීමට හැකි පරිසරයක් ගොඩනැගීම.
-            </p>
-          </div>
-
-        </div>
+        <h2 style={styles.h2}>
+          Our Mission
+        </h2>
+        <p style={styles.p}>
+          To build an environment where anyone can easily and safely buy and
+          sell goods, utilizing modern technology.
+        </p>
 
       </div>
     </div>
