@@ -13,19 +13,22 @@ export const metadata = {
   // === Description එක SithRoo.Store Branding වලට වෙනස් කළා ===
   description: "SithRoo.Store: A secure digital ecosystem featuring the Kitto classifieds platform and future services.",
   
-  // PWA (Progressive Web App) Settings
   manifest: "/manifest.json",
-  // === Theme Color එක Dark Mode එකට වෙනස් කළා ===
-  themeColor: "#1e3a8a", 
   appleWebAppCapable: "yes",
   appleWebAppStatusBarStyle: "default",
-  // === Apple Web App Title එක SithRoo වලට වෙනස් කළා ===
   appleWebAppTitle: "SithRoo",
   
-  // Note: Google Verification code එක මෙතනට දාන්න
-  // verification: { google: 'ඔයාගේ_GOOGLE_CODE_එක' }, 
+  // === GOOGLE VERIFICATION CODE එක මෙතනට දැම්මා ===
+  verification: {
+    google: 'UFJkCCiICgjs4fMABWRL1Q-cI2Kfot99Y9_z-YHjPSc', 
+  },
 };
-// -----------------------------
+
+// --- Viewport Export (ThemeColor fix) ---
+export const viewport = {
+  themeColor: "#1e3a8a", 
+};
+// -----------------------------------------------------
 
 
 // --- Main Layout Component ---

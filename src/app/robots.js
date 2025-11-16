@@ -1,4 +1,4 @@
-// !!! වැදගත්: මෙතනට ඔයාගේ LIVE URL එක හරියටම දාන්න !!!
+// !!! වැදගත්: මෙතනට ඔබේ LIVE URL එක හරියටම දාන්න !!!
 const BASE_URL = 'https://sithroo.store/'; // 'sitemap.js' එකේ දැම්ම URL එකම දාන්න
 
 export default function robots() {

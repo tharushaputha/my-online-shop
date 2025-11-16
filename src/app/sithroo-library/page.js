@@ -1,54 +1,87 @@
+'use client'; 
+import React, { useState } from 'react';
 import Link from 'next/link';
-
-// Styles ටික
-const styles = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    minHeight: '100vh',
-    backgroundColor: '#1a1a1a', // Dark background
-    color: 'white',
-    fontFamily: 'Arial, sans-serif',
-    padding: '20px',
-  },
-  title: {
-    fontSize: '3rem',
-    fontWeight: 'bold',
-    color: '#e0f2f7', // Light blue text
-    textShadow: '0 0 10px rgba(255, 255, 255, 0.5)',
-    marginBottom: '20px',
-  },
-  subtitle: {
-    fontSize: '1.5rem',
-    color: '#aaa',
-    marginBottom: '40px',
-  },
-  homeLink: {
-    fontSize: '1rem',
-    color: '#98d8d8', // Mint green link
-    textDecoration: 'none',
-    border: '1px solid #98d8d8',
-    padding: '10px 20px',
-    borderRadius: '8px',
-    transition: 'background-color 0.3s, color 0.3s',
-  },
-  // homeLinkHover: { // Next.js වල inline style hover දාන්න බෑ, CSS file ඕනේ
-  //   backgroundColor: '#98d8d8',
-  //   color: '#1a1a1a',
-  // }
-};
+import { FaHome, FaRocket } from 'react-icons/fa';
 
 export default function LibraryComingSoon() {
+  
+  // Clean Sky Blue/White Theme Styles
+  const styles = {
+    container: {
+      // Background: Light Sky Blue
+      backgroundColor: '#e3f2fd', 
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: '40px 20px',
+      fontFamily: 'Arial, sans-serif',
+      color: '#007bff', // Primary Blue color
+      textAlign: 'center',
+    },
+    contentBox: {
+      backgroundColor: 'white',
+      padding: '50px 30px',
+      borderRadius: '15px',
+      boxShadow: '0 8px 20px rgba(0, 0, 0, 0.1)',
+      maxWidth: '500px',
+      width: '100%',
+    },
+    icon: {
+      fontSize: '5rem',
+      color: '#ff99aa', // Cute Pink
+      marginBottom: '20px',
+      animation: 'pulse 1.5s infinite alternate',
+    },
+    h1: {
+      fontSize: '3rem',
+      fontWeight: 'bold',
+      marginBottom: '15px',
+    },
+    p: {
+      fontSize: '1.2rem',
+      color: '#555',
+      marginBottom: '30px',
+    },
+    homeLink: {
+      backgroundColor: '#007bff',
+      color: 'white',
+      padding: '12px 25px',
+      borderRadius: '8px',
+      fontWeight: 'bold',
+      textDecoration: 'none',
+      transition: 'background-color 0.3s',
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: '10px',
+    },
+    // CSS Keyframe Animation
+    keyframes: `
+        @keyframes pulse {
+            from { transform: scale(1); opacity: 0.8; }
+            to { transform: scale(1.1); opacity: 1; }
+        }
+    `,
+  };
+
   return (
     <div style={styles.container}>
-      <h1 style={styles.title}>Coming Soon...</h1>
-      <p style={styles.subtitle}>SithRoo Library is under construction.</p>
+      {/* Styles for animation */}
+      <style>{styles.keyframes}</style> 
       
-      <Link href="/" style={styles.homeLink}>
-        Back to Home
-      </Link>
+      <div style={styles.contentBox}>
+        <FaRocket style={styles.icon} />
+        <h1 style={styles.h1}>SithRoo Library</h1>
+        <h1 style={styles.h1}>Coming Soon...</h1>
+        <p style={styles.p}>
+          We are preparing our digital ecosystem to bring you curated books, stories, and thoughts.
+        </p>
+        
+        <Link href="/" style={styles.homeLink}>
+          <FaHome /> Back to SithRoo Home
+        </Link>
+      </div>
     </div>
   );
-}
+};
