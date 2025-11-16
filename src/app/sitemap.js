@@ -1,5 +1,5 @@
 // !!! වැදගත්: මෙතනට ඔබේ LIVE URL එක හරියටම දාන්න !!!
-const BASE_URL = 'https://sithroo.store/'; // උදාහරණයක්: https://ඔබේ-netlify-site-name.netlify.app
+const BASE_URL = 'https://sithroo.store'; // උදාහරණයක්: https://ඔබේ-netlify-site-name.netlify.app
 
 export default function sitemap() {
   return [
