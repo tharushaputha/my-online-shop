@@ -148,7 +148,7 @@ const NavoAssistant = () => {
                         style={bubbleStyles.image}
                         onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/45x45/ff99aa/FFFFFF?text=N"; }}
                     />
-                    <h2 style={bubbleStyles.h2}>Hi! I'm {ASSISTANT_NAME}, your SithRoo Assistant.</h2>
+                    <h2 style={bubbleStyles.h2}>Hi I'm {ASSISTANT_NAME}, your SithRoo Assistant.</h2>
                 </div>
                 
                 {/* Body Message (Sinhala with Maname Font) */}
@@ -175,13 +175,13 @@ const NavoAssistant = () => {
                         onClick={handleDismiss} 
                         style={bubbleStyles.mainButton(false)} 
                     >
-                        පසුව බලමු / Skip
+                              Skip
                     </button>
                     <button 
                         onClick={handleDismiss} 
                         style={bubbleStyles.mainButton(true)} 
                     >
-                        හරි / Continue <FaChevronRight style={{marginLeft: '5px', fontSize: '0.8em'}}/>
+                        Continue <FaChevronRight style={{marginLeft: '5px', fontSize: '0.8em'}}/>
                     </button>
                 </div>
             </div>
