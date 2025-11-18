@@ -78,20 +78,25 @@ const ImageGallery = ({ imageUrls, title }) => {
   );
 };
 
-// --- formatWhatsAppNumber function ---
+// --- FIX: formatWhatsAppNumber function Updated ---
 const formatWhatsAppNumber = (number) => {
   if (!number) return null;
+  // Remove spaces and dashes
   let cleaned = number.replace(/[-\s]/g, '');
+  
+  // Check for leading zero (Sri Lankan format)
   if (cleaned.startsWith('07')) {
     cleaned = '94' + cleaned.substring(1);
   }
-  return cleaned;
+  
+  // ✅ FIX: Return full WhatsApp API URL
+  return `https://wa.me/${cleaned}`;
 };
 
 // --- RelatedAdCard Component ---
 const RelatedAdCard = ({ ad }) => (
   <Link
-    href={`/ad/${ad.id}`}
+    href={`/kitto-home/${ad.id}`} // Ensure this path matches your file structure
     className="block w-48 flex-shrink-0 bg-white rounded-lg shadow-md overflow-hidden group"
   >
     <div className="w-full h-32 bg-gray-200 overflow-hidden">
@@ -168,7 +173,9 @@ const RelatedAds = ({ categoryName, currentAdId }) => {
 // --- Main AdDetailPage Component ---
 export default function AdDetailPage() {
   const params = useParams();
-  const id = params?.id;
+  // Handle both [id] and [adId] patterns just in case
+  const id = params?.adId || params?.id; 
+  
   const [ad, setAd] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

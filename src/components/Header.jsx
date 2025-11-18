@@ -20,9 +20,10 @@ const loggedOutMenuItems = [
   { href: '/signup', label: 'Sign Up' },
 ];
 const commonMenuItems = [
-  { href: '/', label: 'Home' },
+  // ✅ FIX: Home button එක දැන් කෙලින්ම Kitto Home එකට යයි
+  { href: '/kitto-home', label: 'Home' }, 
   { href: '/shops', label: 'Shops' },
-  { href: '/kitto-drop', label: 'Kitto Drop' }, // New Item included
+  { href: '/kitto-drop', label: 'Kitto Drop' }, 
 ];
 // --------------------------------------------------------------------
 
@@ -38,16 +39,22 @@ const Header = () => {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    router.push('/');
+    router.push('/kitto-home'); // ✅ FIX: Logout වුණාමත් Kitto Home එකට යන්න
   };
 
   return (
     <header className="bg-secondary shadow-md sticky top-0 z-50">
       <nav className="container mx-auto px-4 py-3 flex justify-between items-center">
-        {/* Logo */}
+        {/* Logo - මෙය Main SithRoo Home එකට යයි (Brand Home) */}
         <Link href="/">
-          {/* Ensure the path and dimensions are correct for your logo */}
-          <Image src="/logo.png" alt="Kitto Logo" width={100} height={35} priority style={{ height: 'auto' }}/>
+          <Image 
+            src="/logo.png" 
+            alt="Kitto Logo" 
+            width={100} 
+            height={35} 
+            priority 
+            style={{ height: 'auto', objectFit: 'contain' }} 
+          />
         </Link>
 
         {/* Hotline */}
@@ -57,39 +64,38 @@ const Header = () => {
         </div>
 
         {/* Desktop Menu */}
-        {/* Added flex-wrap for safety, although it shouldn't wrap ideally */}
-        <div className="hidden md:flex items-center space-x-2 md:space-x-3 flex-wrap"> {/* Adjusted space */}
-          <Link href="/" className="bg-white text-primary font-bold py-2 px-4 rounded-full hover:bg-gray-100 transition-colors whitespace-nowrap"> Home </Link>
-          <Link href="/shops" className="bg-white text-primary font-bold py-2 px-4 rounded-full hover:bg-gray-100 transition-colors whitespace-nowrap"> Shops </Link>
-          <Link href="/kitto-drop" className="bg-white text-primary font-bold py-2 px-4 rounded-full hover:bg-gray-100 transition-colors whitespace-nowrap"> Kitto Drop </Link>
-          <Link href="/post-ad" className="bg-primary text-white font-bold py-2 px-5 rounded-full hover:opacity-90 transition-opacity whitespace-nowrap"> + Post Ad </Link> {/* Adjusted padding slightly */}
+        <div className="hidden md:flex items-center space-x-2 md:space-x-3 flex-wrap"> 
+          {/* ✅ FIX: Desktop Home Link -> /kitto-home */}
+          <Link href="/kitto-home" className="bg-white text-primary font-bold py-2 px-4 rounded-full hover:bg-gray-100 transition-colors whitespace-nowrap shadow-sm"> Home </Link>
+          <Link href="/shops" className="bg-white text-primary font-bold py-2 px-4 rounded-full hover:bg-gray-100 transition-colors whitespace-nowrap shadow-sm"> Shops </Link>
+          <Link href="/kitto-drop" className="bg-white text-primary font-bold py-2 px-4 rounded-full hover:bg-gray-100 transition-colors whitespace-nowrap shadow-sm"> Kitto Drop </Link>
+          <Link href="/post-ad" className="bg-primary text-white font-bold py-2 px-5 rounded-full hover:opacity-90 transition-opacity whitespace-nowrap shadow-md"> + Post Ad </Link> 
 
           {/* Conditional Auth Links */}
           {session ? (
             <>
-              <Link href="/my-ads" className="bg-white text-primary font-bold py-2 px-4 rounded-full hover:bg-gray-100 transition-colors whitespace-nowrap"> My Ads </Link>
-              <Link href="/account/settings" className="bg-white text-primary font-bold py-2 px-4 rounded-full hover:bg-gray-100 transition-colors whitespace-nowrap" title="Settings"> Settings </Link>
-              <button onClick={handleLogout} className="bg-white text-red-500 font-bold py-2 px-4 rounded-full hover:bg-gray-100 transition-colors whitespace-nowrap"> Log Out </button>
+              <Link href="/my-ads" className="bg-white text-primary font-bold py-2 px-4 rounded-full hover:bg-gray-100 transition-colors whitespace-nowrap shadow-sm"> My Ads </Link>
+              <Link href="/account/settings" className="bg-white text-primary font-bold py-2 px-4 rounded-full hover:bg-gray-100 transition-colors whitespace-nowrap shadow-sm" title="Settings"> Settings </Link>
+              <button onClick={handleLogout} className="bg-white text-red-500 font-bold py-2 px-4 rounded-full hover:bg-gray-100 transition-colors whitespace-nowrap shadow-sm"> Log Out </button>
             </>
           ) : (
             <>
-              <Link href="/login" className="bg-white text-primary font-bold py-2 px-4 rounded-full hover:bg-gray-100 transition-colors whitespace-nowrap"> Log In </Link>
-              <Link href="/signup" className="bg-white text-primary font-bold py-2 px-4 rounded-full hover:bg-gray-100 transition-colors whitespace-nowrap"> Sign Up </Link>
+              <Link href="/login" className="bg-white text-primary font-bold py-2 px-4 rounded-full hover:bg-gray-100 transition-colors whitespace-nowrap shadow-sm"> Log In </Link>
+              <Link href="/signup" className="bg-white text-primary font-bold py-2 px-4 rounded-full hover:bg-gray-100 transition-colors whitespace-nowrap shadow-sm"> Sign Up </Link>
             </>
           )}
         </div>
 
         {/* Mobile Menu Button */}
         <div className="md:hidden flex items-center">
-          <Link href="/post-ad" className="bg-primary text-white font-bold py-1 px-3 rounded-full text-sm mr-2 whitespace-nowrap"> + Post Ad </Link>
+          <Link href="/post-ad" className="bg-primary text-white font-bold py-1 px-3 rounded-full text-sm mr-2 whitespace-nowrap shadow-sm"> + Post Ad </Link>
 
-          {/* Hydration check for Menu */}
           {isClient && (
             <Menu as="div" className="relative inline-block text-left">
               {({ open }) => (
                 <>
-                  <Menu.Button className="inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-2 py-1 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none">
-                    {open ? ( <HiOutlineX className="h-5 w-5" /> ) : ( <HiOutlineMenu className="h-5 w-5" /> )}
+                  <Menu.Button className="inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-2 py-1 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none ml-2">
+                    {open ? ( <HiOutlineX className="h-6 w-6 text-primary" /> ) : ( <HiOutlineMenu className="h-6 w-6 text-primary" /> )}
                   </Menu.Button>
 
                   <Transition
@@ -97,12 +103,12 @@ const Header = () => {
                     enter="transition ease-out duration-100" enterFrom="transform opacity-0 scale-95" enterTo="transform opacity-100 scale-100"
                     leave="transition ease-in duration-75" leaveFrom="transform opacity-100 scale-100" leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
                       {/* Common Links */}
                       <div className="py-1">
                         {commonMenuItems.map((item) => (
                           <Menu.Item key={item.label}>
-                            {({ active }) => ( <Link href={item.href} className={`${ active ? 'bg-gray-100' : '' } block px-4 py-2 text-sm text-gray-700`}>{item.label}</Link> )}
+                            {({ active }) => ( <Link href={item.href} className={`${ active ? 'bg-gray-100' : '' } block px-4 py-2 text-sm text-gray-700 font-medium`}>{item.label}</Link> )}
                           </Menu.Item>
                         ))}
                       </div>
@@ -110,13 +116,13 @@ const Header = () => {
                       <div className="py-1">
                         {(session ? loggedInMenuItems : loggedOutMenuItems).map((item) => (
                           <Menu.Item key={item.label}>
-                            {({ active }) => ( <Link href={item.href} className={`${ active ? 'bg-gray-100' : '' } block px-4 py-2 text-sm text-gray-700`}>{item.label}</Link> )}
+                            {({ active }) => ( <Link href={item.href} className={`${ active ? 'bg-gray-100' : '' } block px-4 py-2 text-sm text-gray-700 font-medium`}>{item.label}</Link> )}
                           </Menu.Item>
                         ))}
                         {/* Logout Button */}
                         {session && (
                           <Menu.Item>
-                            {({ active }) => ( <button onClick={handleLogout} className={`${ active ? 'bg-gray-100' : '' } block w-full px-4 py-2 text-left text-sm text-red-600`}> Log Out </button> )}
+                            {({ active }) => ( <button onClick={handleLogout} className={`${ active ? 'bg-gray-100' : '' } block w-full px-4 py-2 text-left text-sm text-red-600 font-bold`}> Log Out </button> )}
                           </Menu.Item>
                         )}
                       </div>
@@ -126,8 +132,7 @@ const Header = () => {
               )}
             </Menu>
           )}
-          {/* Fallback for SSR/initial render */}
-          {!isClient && ( <div className="px-2 py-1 border border-gray-300 rounded-md bg-white"> <HiOutlineMenu className="h-5 w-5 text-gray-400" /> </div> )}
+          {!isClient && ( <div className="px-2 py-1 border border-gray-300 rounded-md bg-white ml-2"> <HiOutlineMenu className="h-5 w-5 text-gray-400" /> </div> )}
         </div>
       </nav>
     </header>

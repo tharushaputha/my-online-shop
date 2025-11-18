@@ -1,191 +1,283 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabaseClient';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import Link from 'next/link';
-import { supabase } from '@/lib/supabaseClient';
-import { useRouter } from 'next/navigation';
-import { FaSearch, FaSpinner, FaExclamationTriangle, FaBoxOpen } from 'react-icons/fa';
+import { 
+  FaSpinner, FaExclamationTriangle, FaBoxOpen, FaArrowLeft, 
+  FaDownload, FaCopy, FaCheckCircle, FaTag, FaLayerGroup
+} from 'react-icons/fa';
 import Image from 'next/image';
 
-// --- 🚀 Product Card Component (Link eka FIX karapu aluth widiya) ---
-const ProductCard = ({ product }) => {
-  const isAvailable = product.stock_quantity > 0;
-  // Gradient eka oyage anith buttons wagema
-  const gradient = 'from-pink-100 via-white to-green-100'; 
-  
-  return (
-    // --- ⚠️ FIX EKA MEHEMAI ---
-    // Link eken 'legacyBehavior' ain karala, athule thibba <a> tag eka ain kara.
-    // ClassName okkoma Link ekatama dunna.
-    <Link 
-      href={`/kitto-drop/view-products/${product.id}`}
-      className={`
-        p-4 rounded-xl shadow-lg flex items-center space-x-4
-        bg-gradient-to-br ${gradient} animate-gradient
-        transition-transform duration-200 ease-in-out
-        transform hover:scale-[1.03] active:scale-[0.98]
-        cursor-pointer group border border-transparent hover:border-primary
-        relative overflow-hidden
-      `}
-    >
-      {/* Stock Status Badge */}
-      <span
-        className={`absolute top-2 right-2 text-xs font-bold px-2 py-0.5 rounded-full text-white z-10 ${
-          isAvailable ? 'bg-green-500' : 'bg-red-500'
-        }`}
-      >
-        {isAvailable ? `In Stock (${product.stock_quantity})` : 'Out of Stock'}
-      </span>
+// --- Image Gallery Component ---
+const ProductImageGallery = ({ images, productName }) => {
+  const [mainImage, setMainImage] = useState(images?.[0] || '/kitto-logo.png');
 
-      {/* Image */}
-      <div className="flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 relative rounded-md overflow-hidden">
+  return (
+    <div className="space-y-4">
+      {/* Main Large Image */}
+      <div className="relative w-full h-80 md:h-96 bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
         <Image
-          src={product.image_urls?.[0] || '/kitto-logo.png'} // Placeholder ekata oyage logo eka
-          alt={product.product_name}
+          src={mainImage}
+          alt={productName}
           layout="fill"
-          objectFit="cover"
-          className="group-hover:scale-105 transition-transform duration-300"
+          objectFit="contain"
+          className="transition-transform duration-300 hover:scale-105"
+          onError={(e) => { e.currentTarget.src = '/kitto-logo.png'; }}
         />
       </div>
-      
-      {/* Details */}
-      <div className="flex-grow min-w-0"> {/* min-w-0 dala text truncate hariyatama kala */}
-        <p className="text-xs text-gray-500 mb-1 truncate">{product.product_code || 'N/A'}</p>
-        <h3 className="text-base sm:text-lg font-semibold text-gray-800 truncate group-hover:text-pink-600 transition-colors">
-          {product.product_name}
-        </h3>
-        <p className="text-lg font-bold text-primary mt-1">
-          Rs. {product.retail_price ? product.retail_price.toLocaleString() : 'N/A'}
-        </p>
-      </div>
-    </Link>
+
+      {/* Thumbnails */}
+      {images && images.length > 1 && (
+        <div className="flex gap-2 overflow-x-auto pb-2 custom-scrollbar">
+          {images.map((img, idx) => (
+            <button
+              key={idx}
+              onClick={() => setMainImage(img)}
+              className={`relative w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden border-2 transition-all ${
+                mainImage === img ? 'border-primary ring-2 ring-pink-200' : 'border-gray-200 hover:border-pink-300'
+              }`}
+            >
+              <Image 
+                src={img} 
+                alt={`Thumb ${idx}`} 
+                layout="fill" 
+                objectFit="cover" 
+              />
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
   );
 };
 
-
-// --- Main Page (Kisima wenasak naha) ---
-export default function ViewProductsPage() {
+// --- Main Detail Page Component ---
+export default function ProductDetailPage() {
+  const params = useParams();
   const router = useRouter();
-  const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
+  const { id } = params; // URL eken ID eka gannawa
 
-  // Verify User & Fetch Products
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [copied, setCopied] = useState(false);
+
+  // --- 1. Verify User & Fetch Product Data ---
   useEffect(() => {
-    // Check user login
     const storedUser = localStorage.getItem('kittoDropUser');
-    if (!storedUser || storedUser === 'undefined' || storedUser === 'null') {
+    if (!storedUser) {
       router.push('/kitto-drop/login');
       return;
     }
 
-    const fetchProducts = async () => {
-      setIsLoading(true);
-      setError('');
+    const fetchProductDetails = async () => {
+      setLoading(true);
       try {
-        // 'kitto_drop_products' table eken fetch karanawa
         const { data, error: fetchError } = await supabase
-          .from('kitto_drop_products') // <-- Aluth table eka
-          .select('id, product_name, retail_price, image_urls, product_code, stock_quantity')
-          .eq('is_active', true) // Active products vitharak
-          .order('created_at', { ascending: false });
+          .from('kitto_drop_products')
+          .select('*')
+          .eq('id', id)
+          .single();
 
         if (fetchError) throw fetchError;
-        setProducts(data || []);
+        setProduct(data);
       } catch (err) {
-        console.error("Error fetching Kitto Drop products:", err);
-        setError(`Failed to load products: ${err.message}`);
+        console.error("Error fetching product:", err);
+        setError("Product not found or removed.");
       } finally {
-        setIsLoading(false);
+        setLoading(false);
       }
     };
 
-    fetchProducts();
-  }, [router]);
+    if (id) fetchProductDetails();
+  }, [id, router]);
 
-  // Filter products based on search term
-  const filteredProducts = useMemo(() => {
-    const lowerSearch = searchTerm.toLowerCase();
-    if (!lowerSearch) return products; // No search, return all
+  // --- Helper: Copy Description ---
+  const handleCopyDescription = () => {
+    if (!product) return;
+    const textToCopy = `
+${product.product_name}
+Price: Rs. ${product.retail_price}
+Code: ${product.product_code || '-'}
 
-    return products.filter(p =>
-      p.product_name.toLowerCase().includes(lowerSearch) ||
-      (p.product_code && p.product_code.toLowerCase().includes(lowerSearch))
+${product.description || ''}
+    `.trim();
+
+    navigator.clipboard.writeText(textToCopy);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  // --- Helper: Download Image ---
+  const handleDownloadImage = async (url, filename) => {
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = filename || 'kitto-product.jpg';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (err) {
+      console.error("Download failed", err);
+      alert("Failed to download image. Please try long-pressing to save.");
+    }
+  };
+
+  // --- Loading State ---
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-white">
+        <FaSpinner className="animate-spin text-primary text-4xl mb-4" />
+        <p className="text-gray-500">Loading details...</p>
+      </div>
     );
-  }, [searchTerm, products]);
+  }
+
+  // --- Error State ---
+  if (error || !product) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
+        <FaExclamationTriangle className="text-red-500 text-5xl mb-4" />
+        <h1 className="text-xl font-bold text-gray-800 mb-2">Oops!</h1>
+        <p className="text-gray-600 mb-6">{error}</p>
+        <button onClick={() => router.back()} className="px-6 py-2 bg-gray-200 rounded-full font-bold hover:bg-gray-300">
+          Go Back
+        </button>
+      </div>
+    );
+  }
+
+  // --- Success State ---
+  const isAvailable = product.stock_quantity > 0;
 
   return (
     <>
       <Header />
-      <main className="bg-white min-h-[calc(100vh-150px)] py-10 px-4">
-        <div className="max-w-6xl mx-auto"> {/* Wider container for products */}
-          <h1 className="text-3xl sm:text-4xl font-bold text-primary mb-6 text-center">
-            Kitto Drop Products
-          </h1>
-
-          {/* Search Bar */}
-          <div className="mb-6 relative w-full max-w-lg mx-auto">
-            <input
-              type="text"
-              placeholder="Search by Product Name or Code..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full p-3 pl-10 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500"
-            />
-            <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
-          </div>
-
-          {/* Loading State */}
-          {isLoading && (
-            <div className="flex justify-center items-center py-10">
-              <FaSpinner className="animate-spin text-primary text-4xl" />
-              <p className="ml-3 text-gray-600">Loading products...</p>
-            </div>
-          )}
-
-          {/* Error State */}
-          {error && (
-            <div className="text-center py-10 text-red-600">
-              <FaExclamationTriangle className="text-3xl mb-2 mx-auto"/>
-              <p>{error}</p>
-            </div>
-          )}
-
-          {/* Content State */}
-          {!isLoading && !error && (
-            <>
-              {filteredProducts.length > 0 ? (
-                // Products Grid (Mobile: 1 col, Desktop: 3 cols)
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-                  {filteredProducts.map(product => (
-                    <ProductCard key={product.id} product={product} />
-                  ))}
-                </div>
-              ) : (
-                // No Products Found
-                <div className="text-center py-10 text-gray-500">
-                  <FaBoxOpen className="text-4xl mb-3 mx-auto"/>
-                  <p className="text-lg">
-                    {searchTerm ? 'No products found matching your search.' : 'No products available yet.'}
-                  </p>
-                  <p className="text-sm mt-1">
-                    {searchTerm ? '' : 'Admin panel eken aluth products add karanna.'}
-                  </p>
-                </div>
-              )}
-            </>
-          )}
+      <main className="bg-gray-50 min-h-screen py-8 px-4">
+        <div className="max-w-5xl mx-auto">
           
-          <Link href="/kitto-drop" className="block mt-8 text-center text-primary hover:underline text-sm">
-            ← Back to Kitto Drop
-          </Link>
+          {/* Back Button */}
+          <button 
+            onClick={() => router.back()} 
+            className="flex items-center text-gray-600 hover:text-primary font-bold mb-6 transition-colors"
+          >
+            <FaArrowLeft className="mr-2" /> Back to Catalog
+          </button>
+
+          <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
+              
+              {/* Left: Image Gallery */}
+              <div className="p-6 md:p-8 bg-gray-50/50">
+                <ProductImageGallery 
+                  images={product.image_urls} 
+                  productName={product.product_name} 
+                />
+                
+                {/* Quick Actions for Images */}
+                <div className="mt-6 grid grid-cols-1 gap-3">
+                  <button 
+                    onClick={() => handleDownloadImage(product.image_urls?.[0], `${product.product_name}.jpg`)}
+                    className="w-full py-3 rounded-xl border-2 border-dashed border-pink-200 text-primary font-bold hover:bg-pink-50 hover:border-pink-400 transition-all flex items-center justify-center gap-2"
+                  >
+                    <FaDownload /> Download Main Image
+                  </button>
+                </div>
+              </div>
+
+              {/* Right: Product Details */}
+              <div className="p-6 md:p-10 flex flex-col">
+                
+                {/* Product Badges */}
+                <div className="flex items-center gap-3 mb-4">
+                  <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-white ${isAvailable ? 'bg-green-500' : 'bg-red-500'}`}>
+                    {isAvailable ? 'In Stock' : 'Out of Stock'}
+                  </span>
+                  {product.product_code && (
+                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-600 uppercase">
+                      SKU: {product.product_code}
+                    </span>
+                  )}
+                </div>
+
+                {/* Title */}
+                <h1 className="text-3xl md:text-4xl font-extrabold text-gray-800 mb-2 leading-tight">
+                  {product.product_name}
+                </h1>
+
+                {/* Price */}
+                <div className="mb-8">
+                  <span className="text-3xl font-bold text-primary">
+                    Rs. {product.retail_price?.toLocaleString()}
+                  </span>
+                  <span className="text-sm text-gray-400 ml-2 font-medium">Retail Price</span>
+                </div>
+
+                {/* Info Cards */}
+                <div className="grid grid-cols-2 gap-4 mb-8">
+                  <div className="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                    <FaLayerGroup className="text-blue-500 mb-2 text-xl" />
+                    <p className="text-xs text-blue-400 font-bold uppercase">Stock Available</p>
+                    <p className="text-xl font-bold text-blue-700">{product.stock_quantity} Items</p>
+                  </div>
+                  <div className="bg-purple-50 p-4 rounded-xl border border-purple-100">
+                    <FaTag className="text-purple-500 mb-2 text-xl" />
+                    <p className="text-xs text-purple-400 font-bold uppercase">Category</p>
+                    <p className="text-lg font-bold text-purple-700">General</p>
+                  </div>
+                </div>
+
+                {/* Description Section */}
+                <div className="mb-8">
+                  <div className="flex justify-between items-center mb-3">
+                    <h3 className="text-lg font-bold text-gray-800">Product Description</h3>
+                    <button 
+                      onClick={handleCopyDescription}
+                      className="text-sm flex items-center gap-1 text-gray-500 hover:text-primary font-medium transition-colors"
+                    >
+                      {copied ? <FaCheckCircle className="text-green-500" /> : <FaCopy />}
+                      {copied ? 'Copied!' : 'Copy Details'}
+                    </button>
+                  </div>
+                  <div className="bg-gray-50 p-5 rounded-2xl border border-gray-100 text-gray-700 leading-relaxed whitespace-pre-line text-sm md:text-base h-64 overflow-y-auto custom-scrollbar">
+                    {product.description || "No detailed description available for this product."}
+                  </div>
+                </div>
+
+                {/* Place Order Button */}
+                <div className="mt-auto">
+                  <button 
+                    onClick={() => router.push('/kitto-drop/new-order')}
+                    disabled={!isAvailable}
+                    className={`w-full py-4 rounded-xl font-bold text-lg text-white shadow-lg transition-all transform hover:-translate-y-1 ${
+                      isAvailable 
+                        ? 'bg-gradient-to-r from-primary to-purple-400 hover:shadow-pink-500/30' 
+                        : 'bg-gray-400 cursor-not-allowed'
+                    }`}
+                  >
+                    {isAvailable ? 'Place Order Now' : 'Currently Unavailable'}
+                  </button>
+                  {isAvailable && (
+                    <p className="text-center text-xs text-gray-400 mt-3">
+                      Click to go to the order form and add this item.
+                    </p>
+                  )}
+                </div>
+
+              </div>
+            </div>
+          </div>
         </div>
       </main>
       <Footer />
     </>
   );
 }
-
