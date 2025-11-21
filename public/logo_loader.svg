@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="512" height="512" viewBox="0 0 512 512" aria-label="Animated logo">
+  <title>Animated Logo - Fixed</title>
+
+  <defs>
+    <clipPath id="revealClip">
+      <rect id="revealRect" x="0" y="0" width="0" height="512" rx="8" ry="8" />
+    </clipPath>
+
+    <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blur"/>
+      <feOffset in="blur" dx="0" dy="6" result="off"/>
+      <feMerge>
+        <feMergeNode in="off"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+      <!-- keep alpha low so shadow is subtle -->
+      <feColorMatrix in="off" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Transparent background (none) -->
+
+  <!-- Container for image; clip-path controls reveal -->
+  <g id="logoContainer" clip-path="url(#revealClip)" filter="url(#softShadow)" transform="translate(0,0)">
+    <image id="logoImage"
+           x="0" y="0" width="512" height="512"
+           xlink:href="/mnt/data/ChatGPT_Image_Nov_17__2025__08_42_27_AM-removebg-preview.png"
+           preserveAspectRatio="xMidYMid meet"/>
+  </g>
+
+  <!-- Reveal: expand the clip rect left-to-right -->
+  <animate xlink:href="#revealRect"
+           attributeName="width"
+           from="0" to="520"
+           begin="0s" dur="0.9s"
+           fill="freeze"
+           calcMode="spline"
+           keySplines="0.2 0.9 0.2 1"/>
+
+  <!-- Scale pop (applies a scale transform to the group) -->
+  <animateTransform xlink:href="#logoContainer"
+                    attributeName="transform"
+                    attributeType="XML"
+                    type="scale"
+                    from="0.96 0.96" to="1 1"
+                    begin="0.85s" dur="0.42s"
+                    fill="freeze"
+                    calcMode="spline"
+                    keySplines="0.2 0.9 0.2 1"/>
+
+  <!-- Rotate settle (additive so it combines with scale) -->
+  <animateTransform xlink:href="#logoContainer"
+                    attributeName="transform"
+                    attributeType="XML"
+                    type="rotate"
+                    from="-5 256 256" to="0 256 256"
+                    begin="0.85s" dur="0.42s"
+                    additive="sum"
+                    fill="freeze"
+                    calcMode="spline"
+                    keySplines="0.2 0.9 0.2 1"/>
+
+</svg>

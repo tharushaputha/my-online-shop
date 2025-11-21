@@ -1,48 +1,42 @@
-// File: app/layout.js
-import { AuthProvider } from "@/context/AuthContext"; 
+// src/app/layout.js
+import { Inter } from "next/font/google";
 import "./globals.css";
 
-// === 1. අපි හදපු Loader එක Import කරනවා ===
-import InitialLoader from "@/components/InitialLoader";
+// === 1. Loader එක Import කරන්න (මේක ඔයාගේ code එකේ මිස් වෙලා තිබුනා) ===
 
 
-// --- Metadata (SEO and PWA) ---
+// === 2. AuthProvider එක වරහන් {} එක්කම තියන්න (දැන් මේක වැඩ කරනවා) ===
+import { AuthProvider } from "@/context/AuthContext"; 
+
+const inter = Inter({ subsets: ["latin"] });
+
 export const metadata = {
-  // === Title එක SithRoo.Store Branding වලට වෙනස් කළා ===
-  title: "SithRoo.Store - Digital Ecosystem | Kitto Classifieds", 
-  // === Description එක SithRoo.Store Branding වලට වෙනස් කළා ===
+  title: "SithRoo.Store - Digital Ecosystem | Kitto Classifieds",
   description: "SithRoo.Store: A secure digital ecosystem featuring the Kitto classifieds platform and future services.",
-  
   manifest: "/manifest.json",
   appleWebAppCapable: "yes",
   appleWebAppStatusBarStyle: "default",
   appleWebAppTitle: "SithRoo",
-  
-  // === GOOGLE VERIFICATION CODE එක මෙතනට දැම්මා ===
   verification: {
-    google: 'UFJkCCiICgjs4fMABWRL1Q-cI2Kfot99Y9_z-YHjPSc', 
+    google: 'UFJkCCiICgjs4fMABWRL1Q-cI2Kfot99Y9_z-YHjPSc',
   },
 };
 
-// --- Viewport Export (ThemeColor fix) ---
 export const viewport = {
-  themeColor: "#1e3a8a", 
+  themeColor: "#1e3a8a",
 };
-// -----------------------------------------------------
 
-
-// --- Main Layout Component ---
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
+      <body className={inter.className}>
         
-        {/* === 2. Loader එක මෙතනට දානවා === */}
-        <InitialLoader /> 
+        {/* Loader එක */}
+        
 
-        {/* AuthProvider එකෙන් මුළු site එකම wrap කරනවා */}
+        {/* AuthProvider එක */}
         <AuthProvider>
-          {children} {/* මෙතනට තමයි අනිත් pages (page.jsx) එන්නේ */}
+          {children}
         </AuthProvider>
 
       </body>

@@ -1,117 +1,57 @@
-'use client';
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-// Next.js Local Font Loader
-import localFont from 'next/font/local'; 
-import { FaChevronRight, FaBullhorn, FaGift, FaPenFancy } from 'react-icons/fa';
+// src/app/page.js
+'use client'; 
 
-import styles from './home.module.css'; 
-// --- New: Navo Assistant Component එක Import කළා ---
-import NavoAssistant from '../components/NavoAssistant'; 
+// 1. අවශ්‍ය Components import කරගන්න
+import AuthForm from "@/components/AuthForm";
+import Dashboard from "@/components/Dashboard"; // අපි අලුතෙන් හදපු Dashboard එක
+import { useAuth } from "@/context/AuthContext"; // User ඉන්නවද බලන hook එක
 
-// --- 1. MANAME FONT LOADER (Local File Optimization - FINAL PATH) ---
-// Note: Maname.ttf file එක public/fonts/ folder එකේ තිබිය යුතුය.
-const manameFont = localFont({
-    // Final Fix: src/app/ -> ../.. (Project Root) -> public/fonts/Maname.ttf
-    src: [
-        {
-            path: '../../public/fonts/Maname.ttf', // ULTIMATE FIX
-            weight: '400',
-            style: 'normal',
-        },
-    ],
-    display: 'swap',
-    variable: '--font-maname', // CSS Variable Name
-});
-// ----------------------------------------------------
+export default function Home() {
+  // 2. User ගේ විස්තර ගන්න
+  const { user, loading } = useAuth();
 
+  // Loading වෙනකොට මුකුත් නොපෙන්වා ඉන්න (නැත්නම් පොඩි වෙලාවකට Login form එක පේන්න පුළුවන්)
+  if (loading) {
+    return null; // නැත්නම් මෙතනට Loading spinner එකක් දාන්නත් පුළුවන්
+  }
 
-// --- ADS SLIDER MOCK DATA (Retained) ---
-const ADS_DATA = [
-    { 
-      id: 1, 
-      title: 'Kitto Mega Ad Special!', 
-      subtitle: 'Premium Ad Placement: Get 10x more views instantly.', 
-      buttonText: 'Boost Ad Now', 
-      link: '/kitto-home/post-ad',
-      icon: FaBullhorn, 
-      startColor: '#007bff', 
-      endColor: '#17a2b8', 
-    },
-    { 
-      id: 2, 
-      title: 'New User Discount!', 
-      subtitle: 'Sign up today and get a free e-book from our Library.', 
-      buttonText: 'Claim Gift', 
-      link: '/signup',
-      icon: FaGift, 
-      startColor: '#28a745', 
-      endColor: '#20c997', 
-    },
-    { 
-      id: 3, 
-      title: 'Need Help with your Ad?', 
-      subtitle: 'Our Support Team is ready 24/7 to assist you.', 
-      buttonText: 'Contact Support', 
-      link: '/contact',
-      icon: FaPenFancy, 
-      startColor: '#ffc107', 
-      endColor: '#fd7e14', 
-    },
-];
-// ----------------------------------------------------
+  return (
+    <main className="min-h-screen w-full">
+      
+      {/* --- CONDITION CHECK --- */}
+      {user ? (
+        
+        // ▶ SCENARIO 1: USER IS LOGGED IN
+        // අලුත් Dashboard Component එක පෙන්නන්න
+        <Dashboard user={user} />
 
+      ) : (
+        
+        // ▶ SCENARIO 2: USER IS NOT LOGGED IN
+        // පරණ Login Page Design එක පෙන්නන්න
+        <div className="min-h-screen w-full bg-[#F0F4F8] flex flex-col items-center justify-center p-4 md:p-8 relative overflow-hidden">
+            
+            {/* Background Blurs */}
+            <div className="absolute top-[-10%] left-[-10%] w-[400px] h-[400px] md:w-[600px] md:h-[600px] bg-blue-200/40 rounded-full blur-[100px] -z-10"></div>
+            <div className="absolute bottom-[-10%] right-[-10%] w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-purple-200/30 rounded-full blur-[100px] -z-10"></div>
 
-// --- Main SithRoo Home Component ---
-export default function SithRooHome() {
+            {/* Title */}
+            <div className="text-center mb-8 md:mb-12 animate-fade-in z-10">
+              <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 tracking-tight mb-3 drop-shadow-sm">
+                SithRoo
+              </h1>
+              <p className="text-gray-600 text-lg md:text-xl font-medium">
+                Your Secure Digital Ecosystem
+              </p>
+            </div>
 
-    const [currentAdIndex, setCurrentAdIndex] = useState(0);
-
-    // Ad Slider Logic
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setCurrentAdIndex(prevIndex => (prevIndex + 1) % ADS_DATA.length);
-        }, 2000); 
-        return () => clearInterval(timer);
-    }, []);
-    
-    // AdSlider component is complex, simplified representation for main component flow
-    const AdSlider = () => {
-        // Full Ad Slider Logic as implemented previously (not shown here for brevity)
-        return null; 
-    }; 
-
-    return (
-        <div className={manameFont.variable}> {/* Apply the font variable to the main div */}
-            {/* Background Flow Animation */}
-            <div className={styles.background}></div>
-
-            {/* === Onboarding Assistant (New Feature) === */}
-            <NavoAssistant />
-
-            {/* Main Content Container (Glassy Buttons) */}
-            <main className={styles.container}>
-                <h1 className={styles.title}>Welcome to SithRoo.Store</h1>
-                
-                {/* SithRoo Library Button */}
-                <Link href="/sithroo-library" className={styles.button}>
-                SithRoo library
-                </Link>
-                
-                {/* Kitto Button */}
-                <Link href="/kitto-home" className={styles.button}>
-                Kitto
-                </Link>
-
-                {/* Footer Links Section */}
-                <footer className={styles.homeFooter}>
-                <Link href="/about" className={styles.footerLink}>About Us</Link>
-                <Link href="/contact" className={styles.footerLink}>Contact Us</Link>
-                <Link href="/faq" className={styles.footerLink}>FAQ</Link>
-                <Link href="/privacy-policy" className={styles.footerLink}>Privacy Policy</Link>
-                <Link href="/terms-of-service" className={styles.footerLink}>Terms of Service</Link>
-                </footer>
-            </main>
+            {/* Login/Signup Form Card */}
+            <div className="w-full flex justify-center animate-fade-in-up z-10">
+              <AuthForm />
+            </div>
         </div>
-    );
+
+      )}
+    </main>
+  );
 }

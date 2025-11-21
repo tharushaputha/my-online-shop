@@ -1,51 +1,47 @@
-'use client'; 
+// src/context/AuthContext.js
+'use client';
 
-import { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 
-const AuthContext = createContext(null);
+const AuthContext = createContext();
 
-export function AuthProvider({ children }) {
-  const [session, setSession] = useState(null);
+// === වෙනස්කම මෙන්න: 'export const' දැම්මා ===
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // --- මෙන්න වෙනස තියෙන තැන ---
-    // 1. මුලින් session එක ගන්නවා
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setLoading(false); // මෙතන loading false කරන්න ඕන
-    }).catch((error) => {
-      console.error("Error getting initial session:", error);
-      setLoading(false); // Error එකක් ආවත් loading අයින් කරන්න
-    });
+    const checkUser = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        setUser(session?.user ?? null);
+      } catch (error) {
+        console.error('Error checking session:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    // 2. Auth state එක වෙනස් වෙනකොට අහන් ඉන්න Listener එක
-    const { data: { subscription } } = supabase.auth.onAuthStateChange( // මෙතන data වලින් subscription එක ගන්නවා
-      (event, session) => {
-        setSession(session);
-        // setLoading(false); // මෙතන ආයෙත් loading false කරන්න ඕන නෑ
+    checkUser();
+
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        setUser(session?.user ?? null);
+        setLoading(false);
       }
     );
 
-    // cleanup function එක: component එක unmount වෙනකොට listener එක අයින් කරනවා
     return () => {
-      subscription?.unsubscribe(); // මෙතන subscription එකේ unsubscribe එක call කරනවා
+      authListener.subscription.unsubscribe();
     };
-    // -----------------------------
+  }, []);
 
-  }, []); // හිස් array එක තියෙන නිසා මේක mount වෙද්දි විතරයි run වෙන්නේ
+  return (
+    <AuthContext.Provider value={{ user, loading }}>
+      {!loading ? children : null} 
+    </AuthContext.Provider>
+  );
+};
 
-  const value = {
-    session,
-    loading, // loading state එකත් pass කරනවා
-  };
-
-  // Loading ඉවර වෙනකම් මුකුත් පෙන්නන්න එපා
-  //return loading ? null : <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>; // Loading එක දැනට අයින් කරමු, error එකක් ආවොත් බලන්න
-}
-
-export function useAuth() {
-  return useContext(AuthContext);
-}
+export const useAuth = () => useContext(AuthContext);
